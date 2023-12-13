@@ -15,13 +15,17 @@ export default async function handler(req, res){
         }
         
         await connectDB();
+        
         //Checking whether user exists or not
         let user = await SuperAdmin.findOne({ email })
         
         if (!user) {
             return errorHandler(res, 400, "Email is not registered.");
         } else {
-            if (await user.comparePassword(password)) {
+            const isPassword = await user.comparePassword(password);
+            if (isPassword) {
+                const otp = sendOtp(email);
+                
                 res.status(201).json({
                     success: true,
                     message: "Logged in successfully.",
