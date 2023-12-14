@@ -4,6 +4,7 @@ import { reqMethodError } from '@/utils/reqError';
 import User from '@/models/user';
 import RegNum from '@/models/stdRegNum';
 import Blacklist from '@/models/blacklist';
+import { sendOtp } from '@/utils/sendOtp';
 
 export default async function handler (req, res){
     try {
@@ -16,31 +17,33 @@ export default async function handler (req, res){
             return errorHandler(res, 400, "Please fill all fields.");
         }
         await connectDB();
+        
+        let blacklist = await Blacklist.findOne({email: email});
+        if(blacklist){
+            return errorHandler(res, 400, "Email was found in blacklist.")
+        }
 
         let user = await User.findOne({email});
         if(user){
             return errorHandler(res, 400, "Email is already registered.")
         }
 
-        let blacklist = await Blacklist.findOne({email: email});
-        if(blacklist){
-            return errorHandler(res, 400, "Email was found in blacklist.")
-        }
-
         let regNum = await RegNum.findOne({ number: username });
-
         if(!regNum){
             return errorHandler(res, 400, `${username} was not found in registered uni emails.`)
         }
 
+        const otp = sendOtp(email);
+        
         user = await User.create({
             name,
             email,
             password,
             username,
             student: true,
+            otpCode: otp,
         });
-
+        
         return res.status(201).json({
             status: true,
             name: user.name,
@@ -53,6 +56,7 @@ export default async function handler (req, res){
             about:user.about,
             bio:user.bio,
             _id:user._id,
+            isVerified: user.isVerified,
             createdAt: user.createdAt,
             updatedAt:user.updatedAt,
             token: await user.generateJWT(),

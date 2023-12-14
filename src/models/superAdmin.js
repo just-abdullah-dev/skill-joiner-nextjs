@@ -9,7 +9,7 @@ const superAdminSchema = mongoose.Schema(
         username:{type: String, unique: true, required: true},
         email: {type: String, unique: true, required: true},
         password: {type: String, required: true},
-        verified: {type: Boolean, default: false},
+        isVerified: {type: Boolean, default: false},
         otpCode: {type: Number, default: 0},
     },
     {
@@ -17,28 +17,25 @@ const superAdminSchema = mongoose.Schema(
     }
 )
 
-superAdmin.pre('save', async function (next) {
+superAdminSchema.pre('save', async function (next) {
     if (this.isModified('password')) {
       this.password = await hash(this.password, 10);
     }
     next();
   });
   
-  superAdmin.methods.generateJWT = async function () {
-    return sign({ id: this._id }, process.env.JWT_SECRET, { expiresIn: '15d' });
+  superAdminSchema.methods.generateJWT = async function () {
+    return sign({ id: this._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
   };
   
-  superAdmin.methods.comparePassword = async function (enteredPassword) {
+  superAdminSchema.methods.comparePassword = async function (enteredPassword) {
     return compare(enteredPassword, this.password);
   };
   
-  // Create the User model
   let SuperAdmin;
   try {
-    // Try to retrieve the model if it's already registered
     SuperAdmin = mongoose.model('SuperAdmin');
   } catch (e) {
-    // If the model is not registered, create it
     SuperAdmin = mongoose.model('SuperAdmin', superAdminSchema);
   }
   

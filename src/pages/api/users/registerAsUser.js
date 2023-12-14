@@ -3,6 +3,7 @@ import errorHandler from '@/middleware/errorHandler';
 import User from '@/models/user';
 import Blacklist from '@/models/blacklist';
 import { reqMethodError } from '@/utils/reqError';
+import { sendOtp } from '@/utils/sendOtp';
 
 export default async function handler (req, res){
     try {
@@ -26,11 +27,14 @@ export default async function handler (req, res){
             return errorHandler(res, 400, "Email is already registered.")
         }
 
+        const otp = sendOtp(email);
+
         user = await User.create({
             name,
             email,
             password,
             username,
+            otpCode:otp,
         });
 
         return res.status(201).json({
@@ -45,15 +49,13 @@ export default async function handler (req, res){
             about:user.about,
             bio:user.bio,
             _id:user._id,
+            isVerified: user.isVerified,
             createdAt: user.createdAt,
             updatedAt:user.updatedAt,
             token: await user.generateJWT(),
         })
         
     } catch (error) {
-        errorHandler(res, 500, {
-            name: error.name,
-            message: error.message,
-        });
+        errorHandler(res, 500, error.message);
     }
 }

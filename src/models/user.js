@@ -15,7 +15,7 @@ const userSchema = mongoose.Schema(
         languages: {type: [String]},
         about: {type: String, default:''},
         bio: {type: String, default: ''},
-        verified: {type: Boolean, default: false},
+        isVerified: {type: Boolean, default: false},
         otpCode: {type: Number, default: 0},
         skills: { type: mongoose.Schema.Types.ObjectId, ref: "Skill" },
         education: { type: mongoose.Schema.Types.ObjectId, ref: "Education" },
