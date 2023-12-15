@@ -1,6 +1,6 @@
 import connectDB from "@/config/db";
 import errorHandler from "@/middleware/errorHandler";
-import { authGuard } from "@/middleware/userMiddlewares";
+import { userAuthGuard } from "@/middleware/userMiddlewares";
 import User from "@/models/user";
 import { reqMethodError } from "@/utils/reqError";
 
@@ -9,11 +9,14 @@ export default async function handler(req, res) {
         if(req.method !== 'GET'){
             return reqMethodError(res, 'GET');
         }
-        await authGuard(req, res);
+        
         await connectDB();
+
+        await userAuthGuard(req, res);
+
         const user = await User.findById(req.user._id);
         if (user) {
-            res.status(201).json({
+            res.status(200).json({
                 success: true,
                 name: user.name,
                 email:user.email,
@@ -25,6 +28,7 @@ export default async function handler(req, res) {
                 about:user.about,
                 bio:user.bio,
                 _id:user._id,
+                isVerified: user.isVerified,
                 createdAt: user.createdAt,
                 updatedAt:user.updatedAt,
             })

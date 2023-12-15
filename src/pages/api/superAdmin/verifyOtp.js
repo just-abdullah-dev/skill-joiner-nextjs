@@ -26,7 +26,7 @@ export default async function handler (req, res){
 
         const updatedAdmin = await SuperAdmin.findOneAndUpdate(
             { email }, 
-            { $set: { otpCode: 0, isVerified: true } }, 
+            { $set: { otpCode: 0 } }, 
             { new: true } 
           );
 
@@ -37,7 +37,6 @@ export default async function handler (req, res){
             avatar:updatedAdmin.avatar,
             username: updatedAdmin.username,
             _id:updatedAdmin._id,
-            isVerified: updatedAdmin.isVerified,
             createdAt: updatedAdmin.createdAt,
             updatedAt:updatedAdmin.updatedAt,
             token: await updatedAdmin.generateJWT(),

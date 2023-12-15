@@ -33,15 +33,7 @@ export default async function handler (req, res){
         
         return res.status(201).json({
             status: true,
-            name: admin.name,
             email:admin.email,
-            avatar:admin.avatar,
-            username: admin.username,
-            _id:admin._id,
-            isVerified: admin.isVerified,
-            createdAt: admin.createdAt,
-            updatedAt:admin.updatedAt,
-            token: await admin.generateJWT(),
         })
         
     } catch (error) {

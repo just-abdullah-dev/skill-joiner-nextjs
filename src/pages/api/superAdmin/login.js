@@ -1,51 +1,46 @@
-import connectDB from '@/config/db';
-import errorHandler from '@/middleware/errorHandler';
-import { reqMethodError } from '@/utils/reqError';
-import SuperAdmin from '@/models/superAdmin';
-import { sendOtp } from '@/utils/sendOtp';
+import connectDB from "@/config/db";
+import errorHandler from "@/middleware/errorHandler";
+import SuperAdmin from "@/models/superAdmin";
+import { reqMethodError } from "@/utils/reqError";
+import { sendOtp } from "@/utils/sendOtp";
 
-export default async function handler (req, res){
+export default async function handler(req, res){
     try {
         if(req.method !== 'POST'){
             return reqMethodError(res, 'POST');
         }
 
-        const { name, password, email, username } = req.body;
-        if(!name || !email || !password || !username){
+        const { password, email } = req.body;
+        if(!email || !password){
             return errorHandler(res, 400, "Please fill all fields.");
         }
+        
         await connectDB();
+        
+        let admin = await SuperAdmin.findOne({ email })
+        
+        if (!admin) {
+            return errorHandler(res, 400, "Email is not registered.");
+        } else {
+            if (await admin.comparePassword(password)) {
+                const otp = sendOtp(email);
+                const updatedAdmin = await SuperAdmin.findOneAndUpdate(
+                    { email }, 
+                    { $set: { otpCode: otp } }, 
+                    { new: true } 
+                  );
 
-        let admin = await SuperAdmin.findOne({email});
-        if(admin){
-            return errorHandler(res, 400, "Email is already registered.")
+                res.status(200).json({
+                    success: true,
+                    message: "Enter OTP code for verification.",
+                    email:updatedAdmin.email,
+                });
+            } else {
+                return errorHandler(res, 400, "Password is incorrect.");
+            }
         }
-
-        const otp = sendOtp(email);
-        
-        admin = await SuperAdmin.create({
-            name,
-            email,
-            password,
-            username,
-            otpCode: otp,
-        });
-        
-        return res.status(201).json({
-            status: true,
-            name: admin.name,
-            email:admin.email,
-            avatar:admin.avatar,
-            username: admin.username,
-            _id:admin._id,
-            isVerified: admin.isVerified,
-            createdAt: admin.createdAt,
-            updatedAt:admin.updatedAt,
-            token: await admin.generateJWT(),
-        })
-        
     } catch (error) {
-        errorHandler(res, 500, {
+        errorHandler(res, 400, {
             name: error.name,
             message: error.message,
         });

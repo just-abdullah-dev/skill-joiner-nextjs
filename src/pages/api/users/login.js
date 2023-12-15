@@ -15,14 +15,14 @@ export default async function handler(req, res){
         }
         
         await connectDB();
-        //Checking whether user exists or not
+        
         let user = await User.findOne({ email })
         
         if (!user) {
             return errorHandler(res, 400, "Email is not registered.");
         } else {
             if (await user.comparePassword(password)) {
-                res.status(201).json({
+                res.status(200).json({
                     success: true,
                     message: "Logged in successfully.",
                     name: user.name,
@@ -35,6 +35,10 @@ export default async function handler(req, res){
                     about:user.about,
                     bio:user.bio,
                     _id:user._id,
+                    skills: user.skills,
+                    education: user.education,
+                    languages: user.languages,
+                    isVerified: user.isVerified,
                     createdAt: user.createdAt,
                     updatedAt:user.updatedAt,
                     token: await user.generateJWT(),

@@ -3,6 +3,8 @@ import errorHandler from '@/middleware/errorHandler';
 import User from '@/models/user';
 import Blacklist from '@/models/blacklist';
 import { reqMethodError } from '@/utils/reqError';
+import { adminAuthGuard } from "@/middleware/adminMiddlewares";
+
 
 export default async function handler (req, res){
     try {
@@ -14,7 +16,10 @@ export default async function handler (req, res){
         if(!email || !student){
             return errorHandler(res, 400, "Please fill all feilds.");
         }
+        
         await connectDB();
+        await adminAuthGuard(req, res);
+
         let user = await Blacklist.findOne({email});
         if(user){
             return errorHandler(res, 400, "User is already in blacklist.")
