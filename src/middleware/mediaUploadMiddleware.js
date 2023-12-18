@@ -19,7 +19,9 @@ export const mediaUploadMiddleware = multer({
         let ext = path.extname(file.originalname);
         if(ext !== ".png" && ext !== ".jpg" && ext !== ".jpeg" && 
         ext !== ".pdf" && ext !== ".mp4" && ext !== ".PNG" && ext !== ".JPG" && 
-        ext !== ".JPEG" && ext !== ".PDF" && ext !== ".MP4"){
+        ext !== ".JPEG" && ext !== ".PDF" && ext !== ".MP4" && ext !== ".doc" && ext !== ".DOC" && 
+        ext !== ".docx" && ext !== ".DOCX" && ext !== ".zip" && ext !== ".ZIP" 
+        && ext !== ".rar" && ext !== ".RAR"){
             return cb(new Error("File Type Error. Kindly upload only mentioned file type."));
         }
         cb(null,true);

@@ -9,7 +9,6 @@ const userSchema = mongoose.Schema(
         username:{type: String, unique: true, required: true},
         email: {type: String, unique: true, required: true},
         password: {type: String, required: true},
-        profession: {type: String, default: ''},
         student: {type: Boolean, default: false},
         country: {type: String, default: ''},
         languages: {type: [String]},
@@ -17,8 +16,12 @@ const userSchema = mongoose.Schema(
         bio: {type: String, default: ''},
         isVerified: {type: Boolean, default: false},
         otpCode: {type: Number, default: 0},
+        cv: {type: String, default: ''},
+        profession: {type: mongoose.Schema.Types.ObjectId, ref: "Profession" },
+        reviews: {type: [mongoose.Schema.Types.ObjectId], ref: "Review" },
         skills: { type: [mongoose.Schema.Types.ObjectId], ref: "Skill" },
         education: { type: [mongoose.Schema.Types.ObjectId], ref: "Education" },
+        portfolio: { type: [mongoose.Schema.Types.ObjectId], ref: "Project" },
     },
     {
         timestamps: true,
@@ -40,13 +43,10 @@ userSchema.pre('save', async function (next) {
     return compare(enteredPassword, this.password);
   };
   
-  // Create the User model
   let User;
   try {
-    // Try to retrieve the model if it's already registered
     User = mongoose.model('User');
   } catch (e) {
-    // If the model is not registered, create it
     User = mongoose.model('User', userSchema);
   }
   

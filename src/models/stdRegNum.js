@@ -9,7 +9,7 @@ const regNumSchema = mongoose.Schema(
         timestamps: true,
     }
 )
-  // Create the User model
+
   let RegNum;
   try {
     // Try to retrieve the model if it's already registered

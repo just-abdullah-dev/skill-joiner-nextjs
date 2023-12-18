@@ -10,7 +10,8 @@ const blacklistSchema = mongoose.Schema(
         timestamps: true,
     }
 )
-  // Create the User model
+
+
   let Blacklist;
   try {
     // Try to retrieve the model if it's already registered
