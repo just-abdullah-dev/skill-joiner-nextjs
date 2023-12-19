@@ -2,17 +2,17 @@ import mongoose from 'mongoose';
 
 const postSchema = mongoose.Schema(
     {
-        title: {type: String, required: true},
-        desc: {type: String, required: true},
+        title: {type: String},
+        desc: {type: String},
         photos: {type: [String]},
         videos: {type: [String]},
         docs: {type: [String]},
-        time: { type: String, required: true },
-        budget: { type: String, required: true },
+        time: { type: String },
+        budget: { type: String },
         isHired: { type: Boolean, default: false },
         user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
         category: { type: mongoose.Schema.Types.ObjectId, ref: "Profession" },
-        skills: { type: mongoose.Schema.Types.ObjectId, ref: "Skill" },
+        skills: { type: [mongoose.Schema.Types.ObjectId], ref: "Skill" },
     },
     {
         timestamps: true,
