@@ -10,8 +10,9 @@ const adminAuthGuard = async (req, res) => {
             const data = await SuperAdmin.findById(id).select("-password");
             if(!data){
                 return errorHandler(res, 400, "Admin not found.");
+            }else{
+                req.user = data;
             }
-            req.user = data;
         } catch(error) {
             return errorHandler(res, 400, "Invalid Token");
         }

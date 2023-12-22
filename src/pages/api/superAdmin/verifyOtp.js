@@ -31,7 +31,7 @@ export default async function handler (req, res){
           );
 
         return res.status(201).json({
-            status: true,
+            success: true,
             name: updatedAdmin.name,
             email:updatedAdmin.email,
             avatar:updatedAdmin.avatar,

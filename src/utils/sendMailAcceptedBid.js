@@ -10,8 +10,7 @@ export function sendMailAcceptedBid(email, title, clientName, stdName){
         <br>Skill Joiner`;
 
         sendMail(email, "Your Bid Has Been Accepted. 🎉🥳", message);
-
-        return otp;
+        return null;
     } catch (error) {
         console.error(error)
     }

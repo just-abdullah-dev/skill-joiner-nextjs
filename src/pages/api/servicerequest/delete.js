@@ -2,7 +2,7 @@ import connectDB from '@/config/db';
 import errorHandler from '@/middleware/errorHandler';
 import { reqMethodError } from '@/utils/reqError';
 import { userAuthGuard } from '@/middleware/userMiddlewares';
-import JobPost from '@/models/jobPost';
+import ServiceReq from '@/models/request';
 import fileRemover from '@/utils/fileRemover';
 
 export const config = {
@@ -20,25 +20,26 @@ const handler = async (req, res) => {
         await userAuthGuard(req, res);
         const { id } = req.query;
 
-        const Post = await JobPost.findById(id);
-        if(!Post){
-            return errorHandler(res, 404, "Post was not found.")
+        const request = await ServiceReq.findById(id);
+        if(!request){
+            return errorHandler(res, 404, "Request was not found.")
         }
-        Post.photos.map((item)=>{
+        
+        request.photos.map((item)=>{
             fileRemover(item)
         });
 
-        Post.videos.map((item)=>{
+        request.videos.map((item)=>{
             fileRemover(item)
         });
 
-        Post.docs.map((item)=>{
+        request.docs.map((item)=>{
             fileRemover(item)
         });
-        await Post.deleteOne();
+        await request.deleteOne();
         res.json({
             success:true,
-            message: "Job Post has been deleted successfully."
+            message: "Service Request has been deleted successfully."
         })
     } catch (error) {
         console.error('Error processing request:', error);

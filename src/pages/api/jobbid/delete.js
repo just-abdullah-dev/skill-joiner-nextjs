@@ -21,7 +21,9 @@ const handler = async (req, res) => {
         const { id } = req.query;
 
         const Bid = await JobBid.findById(id);
-        
+        if(!Bid){
+            return errorHandler(res, 404, "Bid was not found.")
+        }
         Bid.photos.map((item)=>{
             fileRemover(item)
         });
