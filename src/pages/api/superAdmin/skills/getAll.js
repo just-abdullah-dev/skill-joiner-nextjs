@@ -1,7 +1,7 @@
 import connectDB from '@/config/db';
 import errorHandler from '@/middleware/errorHandler';
 import { reqMethodError } from '@/utils/reqError';
-import Skill from '@/models/skill';
+import Skill from '@/models/skills';
 
 const handler = async (req, res) => {
     if (req.method !== 'GET') {

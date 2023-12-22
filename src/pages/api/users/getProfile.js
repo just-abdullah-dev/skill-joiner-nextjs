@@ -3,6 +3,12 @@ import errorHandler from "@/middleware/errorHandler";
 import { userAuthGuard } from "@/middleware/userMiddlewares";
 import User from "@/models/user";
 import { reqMethodError } from "@/utils/reqError";
+import Profession from "@/models/profession";
+import Project from "@/models/project";
+import Review from "@/models/reviews";
+import Skill from "@/models/skills";
+import Education from "@/models/education";
+import Language from "@/models/languages";
 
 export default async function handler(req, res) {
     try {
@@ -14,24 +20,35 @@ export default async function handler(req, res) {
 
         await userAuthGuard(req, res);
 
-        const user = await User.findById(req.user._id);
+        const user = await User.findById(req.user?._id)
+      .select('-password')
+      .populate([
+        {
+          path: 'profession',
+        },
+        {
+          path: 'languages',
+        },
+        {
+          path: 'reviews',
+        },
+        {
+          path: 'skills',
+        },
+        {
+          path: 'education',
+        },
+        {
+          path: 'portfolio',
+        },
+      ]);
+
+
         if (user) {
             
             res.status(200).json({
                 success: true,
-                name: user.name,
-                email:user.email,
-                avatar:user.avatar,
-                username: user.username,
-                profession:user.profession,
-                student:user.student,
-                country:user.country,
-                about:user.about,
-                bio:user.bio,
-                _id:user._id,
-                isVerified: user.isVerified,
-                createdAt: user.createdAt,
-                updatedAt:user.updatedAt,
+                data:user,
             })
         } else {
             return errorHandler(res, 404, "User not found.");
