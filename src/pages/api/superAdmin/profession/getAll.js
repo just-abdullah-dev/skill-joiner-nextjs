@@ -1,7 +1,6 @@
 import connectDB from '@/config/db';
 import errorHandler from '@/middleware/errorHandler';
 import { reqMethodError } from '@/utils/reqError';
-import { adminAuthGuard } from '@/middleware/adminMiddlewares';
 import Profession from '@/models/profession';
 
 const handler = async (req, res) => {
@@ -10,10 +9,7 @@ const handler = async (req, res) => {
     }
     try {
         await connectDB();
-        await adminAuthGuard(req, res);
-        if(!req.user?._id){
-            return;
-        }
+
         const profession = await Profession.find({})
 
         res.status(201).json({
