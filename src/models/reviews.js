@@ -15,10 +15,8 @@ const reviewSchema = mongoose.Schema(
   
   let Review;
   try {
-    // Try to retrieve the model if it's already registered
     Review = mongoose.model('Review');
   } catch (e) {
-    // If the model is not registered, create it
     Review = mongoose.model('Review', reviewSchema);
   }
   

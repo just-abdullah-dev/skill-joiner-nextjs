@@ -11,6 +11,7 @@ const postSchema = mongoose.Schema(
         budget: { type: String },
         isHired: { type: Boolean, default: false },
         user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+        freelancer: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
         category: { type: mongoose.Schema.Types.ObjectId, ref: "Profession" },
         skills: { type: [mongoose.Schema.Types.ObjectId], ref: "Skill" },
     },

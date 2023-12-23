@@ -6,8 +6,9 @@ const eduSchema = mongoose.Schema(
       field: { type: String, required: true },
       institute: { type: String, required: true },
       startDate: { type: Date, required: true },
-      endDate: { type: Date, required: true },
+      endDate: { type: Date },
       desc: { type: String },
+      isCompleted: { type: Boolean, default: true },
       user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
     },
     {

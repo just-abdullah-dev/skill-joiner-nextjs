@@ -50,15 +50,15 @@ const handler = async (req, res) => {
                     }
                     user.avatar = avatar;
                 }
-                user.name = req.body.name || name;
-                user.username = req.body.username || username;
-                user.profession = req.body.profession || profession;
-                user.country = req.body.country || country;
-                user.about = req.body.about || about;
-                user.bio = req.body.bio || bio;
-                user.languages = req.body.languages || languages;
-                user.skills = req.body.skills || skills;
-                user.education = req.body.education || education;
+                user.name = name || user.name;
+                user.username = username || user.username;
+                user.profession = profession || user.profession;
+                user.country = country || user.country;
+                user.about = about || user.about;
+                user.bio = bio || user.bio;
+                user.languages = languages || user.languages;
+                user.skills = skills || user.skills;
+                user.education = education || user.education;
                 if(password){
                     user.password = password;
                 }
