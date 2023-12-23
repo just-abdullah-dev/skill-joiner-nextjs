@@ -3,7 +3,7 @@ import errorHandler from '@/middleware/errorHandler';
 import User from '@/models/user';
 import Blacklist from '@/models/blacklist';
 import { reqMethodError } from '@/utils/reqError';
-import { sendOtp } from '@/utils/sendOtp';
+import { sendOtp } from '@/utils/mail/sendOtp';
 
 export default async function handler (req, res){
     try {

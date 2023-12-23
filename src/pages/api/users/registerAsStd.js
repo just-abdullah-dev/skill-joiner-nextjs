@@ -4,7 +4,7 @@ import { reqMethodError } from '@/utils/reqError';
 import User from '@/models/user';
 import RegNum from '@/models/stdRegNum';
 import Blacklist from '@/models/blacklist';
-import { sendOtp } from '@/utils/sendOtp';
+import { sendOtp } from '@/utils/mail/sendOtp';
 
 export default async function handler (req, res){
     try {

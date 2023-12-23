@@ -1,6 +1,6 @@
 import { sendMail } from "./sendMail";
 
-export function sendMailAcceptedBid(email, title, clientName, stdName){
+export function sendMailBidAccepted(email, title, clientName, stdName){
     try {
         const message = `
         <br><b>Dear ${stdName},</b>

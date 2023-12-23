@@ -5,7 +5,7 @@ import { reqMethodError } from '@/utils/reqError';
 import { userAuthGuard } from '@/middleware/userMiddlewares';
 import ServiceReq from '@/models/request';
 import User from '@/models/user';
-import { sendMailRecieveRequest } from '@/utils/sendMailRecieveRequest';
+import { sendMailRecieveRequest } from '@/utils/mail/sendMailRecieveRequest';
 
 export const config = {
     api: {

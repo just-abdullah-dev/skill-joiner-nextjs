@@ -5,7 +5,8 @@ import { userAuthGuard } from '@/middleware/userMiddlewares';
 import JobBid from '@/models/jobBid';
 import JobPost from '@/models/jobPost';
 import User from '@/models/user';
-import { sendMailAcceptedBid } from '@/utils/sendMailAcceptedBid';
+import { sendMailBidAccepted } from '@/utils/mail/sendMailBidAccepted';
+import Order from '@/models/order';
 
 const handler = async (req, res) => {
     if (req.method !== 'PUT') {
@@ -30,9 +31,21 @@ const handler = async (req, res) => {
             if (!post) {
                 return errorHandler(res, 400, "Job Post was not found.")
             }
+
+            post.freelancer = Freelancer._id;
+            post.isHired = true;
+            await post.save();
+
             // sending mail to freelancer (email, title, client, std)
-            await sendMailAcceptedBid(Freelancer.email, post.title, req.user.name, Freelancer.name)
+            await sendMailBidAccepted(Freelancer.email, post.title, req.user.name, Freelancer.name)
             Bid.isAccepted = true;
+
+            const order = await Order.create({
+                client: req.user._id,
+                freelancer,
+                jobPost: post._id,
+            });
+            
         } else if (isAccepted == 'no') {
             Bid.isAccepted = false;
         }

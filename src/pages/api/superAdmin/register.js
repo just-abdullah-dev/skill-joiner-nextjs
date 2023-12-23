@@ -2,7 +2,7 @@ import connectDB from '@/config/db';
 import errorHandler from '@/middleware/errorHandler';
 import { reqMethodError } from '@/utils/reqError';
 import SuperAdmin from '@/models/superAdmin';
-import { sendOtp } from '@/utils/sendOtp';
+import { sendOtp } from '@/utils/mail/sendOtp';
 
 export default async function handler (req, res){
     try {

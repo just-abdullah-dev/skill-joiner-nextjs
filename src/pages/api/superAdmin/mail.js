@@ -1,4 +1,4 @@
-import { sendOtp } from "@/utils/sendOtp";
+import { sendOtp } from "@/utils/mail/sendOtp";
 
 export default async function (req, res){
     const otp = sendOtp('abdulhaseeb9274@gmail.com');
