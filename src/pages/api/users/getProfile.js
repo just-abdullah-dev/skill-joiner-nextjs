@@ -9,6 +9,8 @@ import Review from "@/models/reviews";
 import Skill from "@/models/skills";
 import Education from "@/models/education";
 import Language from "@/models/languages";
+import Service from "@/models/service";
+import Package from "@/models/package";
 
 export default async function handler(req, res) {
     try {
