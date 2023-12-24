@@ -19,12 +19,9 @@ export default async function handler(req, res) {
         }
         
         await connectDB();
-
-        // await userAuthGuard(req, res);
+        await userAuthGuard(req, res);
         
-        
-        // const user = await User.findById(req.user?._id)
-        const user = await User.findById('657b3212a1790f85bebcf2db')
+        const user = await User.findById(req.user?._id)
       .select('-password')
       .populate([
         {
