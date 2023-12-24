@@ -41,6 +41,14 @@ export default async function handler(req, res) {
         {
           path: 'portfolio',
         },
+        {
+          path: 'services',
+          populate:[
+            {
+              path: 'packages'
+            }
+          ]
+        },
       ]);
 
 

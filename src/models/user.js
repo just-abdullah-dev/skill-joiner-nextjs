@@ -21,6 +21,7 @@ const userSchema = mongoose.Schema(
         reviews: {type: [mongoose.Schema.Types.ObjectId], ref: "Review" },
         skills: { type: [mongoose.Schema.Types.ObjectId], ref: "Skill" },
         education: { type: [mongoose.Schema.Types.ObjectId], ref: "Education" },
+        services: { type: [mongoose.Schema.Types.ObjectId], ref: "Service" },
         portfolio: { type: [mongoose.Schema.Types.ObjectId], ref: "Project" },
     },
     {
