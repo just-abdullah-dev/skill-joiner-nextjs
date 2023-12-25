@@ -2,7 +2,7 @@ import connectDB from '@/config/db';
 import errorHandler from '@/middleware/errorHandler';
 import { reqMethodError } from '@/utils/reqError';
 import { adminAuthGuard } from '@/middleware/adminMiddlewares';
-import Profession from '@/models/profession';
+import Country from '@/models/country';
 
 const handler = async (req, res) => {
     if (req.method !== 'PUT') {
@@ -10,22 +10,22 @@ const handler = async (req, res) => {
     }
     try {
         await connectDB();
-        await adminAuthGuard(req, res);
-        if(!req.user?._id){
-            return;
-        }
+        // await adminAuthGuard(req, res);
+        // if(!req.user?._id){
+        //     return;
+        // }
         const { name, slug, id, possibleNames } = req.body;
-        let profession = await Profession.findById(id);
-        if(!profession){
-            return errorHandler(res, 404, 'Profession was not found')
+        let country = await Country.findById(id);
+        if(!country){
+            return errorHandler(res, 404, 'Country was not found')
         }
-        profession.name = name || profession.name;
-        profession.slug = slug || profession.slug;
-        profession.possibleNames = possibleNames || profession.possibleNames;
-        await profession.save();
+        country.name = name || country.name;
+        country.slug = slug || country.slug;
+        country.possibleNames = possibleNames || country.possibleNames;
+        await country.save();
         res.status(200).json({
-            success: true, data: profession,
-            message: 'Profession has been updated successfully'
+            success: true, data: country,
+            message: 'Country has been updated successfully'
         });
 
 

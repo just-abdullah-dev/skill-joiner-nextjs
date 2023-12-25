@@ -10,20 +10,20 @@ const handler = async (req, res) => {
     }
     try {
         await connectDB();
-        await adminAuthGuard(req, res);
-        if(!req.user?._id){
-            return;
-        }
+        // await adminAuthGuard(req, res);
+        // if(!req.user?._id){
+        //     return;
+        // }
         
-        const { name, slug } = req.body;
+        const { name, slug, possibleNames } = req.body;
         const skill = await Skill.create({
-            name, slug
+            name, slug, possibleNames,
         });
 
         res.status(201).json({
             success: true,
-            data: skill,
-            message: `${skill.name} has been added to skill collection successfully`
+            message: `${skill.name} has been added to skill collection successfully`,
+            data: skill
         });
 
     } catch (error) {

@@ -2,7 +2,7 @@ import connectDB from '@/config/db';
 import errorHandler from '@/middleware/errorHandler';
 import { reqMethodError } from '@/utils/reqError';
 import { adminAuthGuard } from '@/middleware/adminMiddlewares';
-import Profession from '@/models/profession';
+import Country from '@/models/country';
 
 const handler = async (req, res) => {
     if (req.method !== 'POST') {
@@ -16,14 +16,14 @@ const handler = async (req, res) => {
         // }
         
         const { name, slug, possibleNames } = req.body;
-        const profession = await Profession.create({
+        const country = await Country.create({
             name, slug, possibleNames
         });
 
         res.status(201).json({
             success: true,
-            message: `${profession.name} has been added to profession collection successfully`,
-            data: profession
+            message: `${country.name} has been added to country list.`,
+            data: country
         });
 
     } catch (error) {

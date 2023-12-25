@@ -4,6 +4,7 @@ const skillSchema = mongoose.Schema(
     {
         name: {type: String, required: true},
         slug: {type: String, required: true, unique: true},
+        possibleNames: {type: String},
     },
     {
         timestamps: true,

@@ -17,8 +17,8 @@ const handler = async (req, res) => {
         }
         const { question, answer, id } = req.body;
         let faq = await FAQ.findById(id);
-        faq.question = question;
-        faq.answer = answer;
+        faq.question = question || faq.question;
+        faq.answer = answer || faq.answer;
         await faq.save();
         res.status(200).json({
             success: true, data: faq,

@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const professionSchema = mongoose.Schema(
+const countrySchema = mongoose.Schema(
     {
         name: {type: String, required: true},
         slug: {type: String, required: true, unique: true},
@@ -11,12 +11,12 @@ const professionSchema = mongoose.Schema(
     }
 )
   
-  let Profession;
+  let Country;
   try {
-    Profession = mongoose.model('Profession');
+    Country = mongoose.model('Country');
   } catch (e) {
-    Profession = mongoose.model('Profession', professionSchema);
+    Country = mongoose.model('Country', countrySchema);
   }
   
-  module.exports = Profession;
+  module.exports = Country;
   
