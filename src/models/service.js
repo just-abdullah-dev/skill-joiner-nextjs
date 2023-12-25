@@ -4,6 +4,7 @@ const serviceSchema = mongoose.Schema(
     {
         title: {type: String, required: true},
         desc: {type: String, required: true},
+        publish: {type: Boolean, default: false},
         photos: {type: [String]},
         videos: {type: [String]},
         docs: {type: [String]},

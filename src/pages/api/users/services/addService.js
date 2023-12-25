@@ -31,10 +31,14 @@ const handler = async (req, res) => {
             }
 
             const body = JSON.parse(req.body.body);
-            const { title, desc, profession, skills, packages } = body;
-            
+            let { title, desc, profession, skills, packages, publish } = body;
+            if(publish == 'yes'){
+                publish = true;
+            }else if(publish == 'no'){
+                publish = false;
+            }
             let service = await Service.create({
-                title, desc, profession, skills,
+                title, desc, profession, skills, publish,
                 user: req.user._id
             });
             

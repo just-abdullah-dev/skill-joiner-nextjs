@@ -1,5 +1,5 @@
 import connectDB from '@/config/db';
-import User from '@/models/user'; 
+import Service from '@/models/service'; 
 import Skill from '@/models/skills';
 import Profession from '@/models/profession';
 import Review from '@/models/reviews';
@@ -8,14 +8,22 @@ export default async function handler(req, res){
     try {
     await  connectDB();
 
-    const { keyword } = req.query; 
-    const searchResults = await User.aggregate([
+    const { keyword } = req.query;
+    const searchResults = await Service.aggregate([
       {
         $lookup: {
           from: 'professions',
           localField: 'profession',
           foreignField: '_id',
           as: 'professionData',
+        },
+      },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'user',
+          foreignField: '_id',
+          as: 'userData',
         },
       },
       {
@@ -28,10 +36,10 @@ export default async function handler(req, res){
       },
       {
         $lookup: {
-          from: 'countries',
-          localField: 'country',
+          from: 'packages',
+          localField: 'packages',
           foreignField: '_id',
-          as: 'countryData',
+          as: 'packagesData',
         },
       },
       {
@@ -47,34 +55,31 @@ export default async function handler(req, res){
           $and: [
             {
               $or: [
-                { name: { $regex: keyword, $options: 'i' } },
-                { username: { $regex: keyword, $options: 'i' } },
-                { bio: { $regex: keyword, $options: 'i' } },
-                { about: { $regex: keyword, $options: 'i' } },
+                { title: { $regex: keyword, $options: 'i' } },
+                { desc: { $regex: keyword, $options: 'i' } },
                 { 'professionData.possibleNames': { $regex: keyword, $options: 'i' } },
                 { 'skillsData.possibleNames': { $regex: keyword, $options: 'i' } },
               ],
             },
-            { student: true }, 
+            { publish: false }, 
           ],
         },
       },
       {
         $project: {
-          name: 1,
-          avatar: 1,
-          username: 1, 
-          bio: 1, 
-          about: 1, 
+          title: 1,
+          photos: 1,
+          videos: 1,
           professionData: {name: 1, slug: 1}, 
           skillsData: {name: 1, slug: 1},
-          countryData: {name: 1, slug: 1},
+          packagesData: 1,
           reviewsData: 1,
+          userData: {name: 1, avatar: 1, username: 1, _id:1},
         },
       },
     ]);
     if(!searchResults[0]){
-      return res.status(404).json({ success: false, message: `Couldn't find ${keyword} in user profiles.` });
+      return res.status(404).json({ success: false, message: `Couldn't find ${keyword} in services.` });
     }
     res.status(200).json({ success: true, data: searchResults });
   } catch (error) {

@@ -31,13 +31,17 @@ const handler = async (req, res) => {
             }
 
             const body = JSON.parse(req.body.body);
-            const { id, title, desc, profession, skills, packages } = body;
-
+            const { id, title, desc, profession, skills, publish } = body;
             let service = await Service.findById(id);
             if(!service){
                 return errorHandler(res, 404, "Service was not found.")
             }
-
+            
+            if(publish == 'yes'){
+                service.publish = true;
+            }else if(publish == 'no'){
+                service.publish = false;
+            }
             service.title = title || service.desc;
             service.desc = desc || service.desc;
             service.profession = profession || service.profession;
