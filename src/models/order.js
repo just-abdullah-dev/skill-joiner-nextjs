@@ -7,6 +7,7 @@ const orderSchema = mongoose.Schema(
         freelancer: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
         serviceReq: { type: mongoose.Schema.Types.ObjectId, ref: "ServiceReq" },
         jobPost: { type: mongoose.Schema.Types.ObjectId, ref: "JobPost" },
+        service: { type: mongoose.Schema.Types.ObjectId, ref: "Service" },
         delivery: { type: mongoose.Schema.Types.ObjectId, ref: "Delivery" },
         isCompleted: {type: Boolean, default: false},
         isDelivered: {type: Boolean, default: false},

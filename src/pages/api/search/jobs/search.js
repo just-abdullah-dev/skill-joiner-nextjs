@@ -36,11 +36,16 @@ export default async function handler(req, res){
       },
       {
         $match: {
-          $or: [
-            { title: { $regex: keyword, $options: 'i' } },
-            { desc: { $regex: keyword, $options: 'i' } },
-            { 'professionData.possibleNames': { $regex: keyword, $options: 'i' } },
-            { 'skillsData.possibleNames': { $regex: keyword, $options: 'i' } },
+          $and: [
+            {
+              $or: [
+                { title: { $regex: keyword, $options: 'i' } },
+                { desc: { $regex: keyword, $options: 'i' } },
+                { 'professionData.possibleNames': { $regex: keyword, $options: 'i' } },
+                { 'skillsData.possibleNames': { $regex: keyword, $options: 'i' } },
+              ],
+            },
+            { isHired: false }, 
           ],
         },
       },
@@ -50,6 +55,7 @@ export default async function handler(req, res){
           desc: 1,
           time: 1,
           budget: 1,
+          isHired: 1,
           professionData: {name: 1, slug: 1}, 
           skillsData: {name: 1, slug: 1},
           userData: {

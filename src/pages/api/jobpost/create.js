@@ -29,10 +29,10 @@ const handler = async (req, res) => {
             }
 
             const body = JSON.parse(req.body.body);
-            const { title, desc, time, budget } = body;
+            const { title, desc, time, budget, category, skills } = body;
             
             let post = await JobPost.create({
-                title, desc, time, budget,
+                title, desc, time, budget, category, skills,
                 user:req.user._id
             });
             

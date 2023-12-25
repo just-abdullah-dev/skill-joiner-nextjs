@@ -31,14 +31,16 @@ const handler = async (req, res) => {
             }
 
             const body = JSON.parse(req.body.body);
-            const { title, desc, time, budget } = body;
+            const { title, desc, time, budget, category, skills } = body;
             
             let Post = await JobPost.findById(id);
             
-            Post.title = title;
-            Post.desc = desc;
-            Post.time = time;
-            Post.budget = budget;
+            Post.title = title || Post.title;
+            Post.desc = desc || Post.desc;
+            Post.time = time || Post.time;
+            Post.budget = budget || Post.budget;
+            Post.category = category || Post.category;
+            Post.skills = skills || Post.skills;
 
             Post.photos.map((item)=>{
                 fileRemover(item)
