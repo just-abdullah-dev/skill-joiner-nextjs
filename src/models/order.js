@@ -12,7 +12,8 @@ const orderSchema = mongoose.Schema(
         isCompleted: {type: Boolean, default: false},
         isDelivered: {type: Boolean, default: false},
         isRevised: {type: Boolean, default: false},
-
+        canceller: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+        isCancelled: {type: Boolean, default: false},
     },
     {
         timestamps: true,
