@@ -5,8 +5,13 @@ const reviewSchema = mongoose.Schema(
         desc: {type: String, required: true},
         reviewBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
         reviewTo:{ type: mongoose.Schema.Types.ObjectId, ref: "User" },
-        project:{ type: mongoose.Schema.Types.ObjectId, ref: "Project" },
+        order:{ type: mongoose.Schema.Types.ObjectId, ref: "Order" },
         rating: {type: Number, default: 0},
+        parent: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Review",
+          default: null,
+        },
     },
     {
         timestamps: true,
