@@ -4,6 +4,7 @@ import User from '@/models/user';
 import Order from '@/models/order';
 import Review from '@/models/reviews';
 import errorHandler from '@/middleware/errorHandler';
+import { reqMethodError } from '@/utils/reqError';
 
 export default async function handler(req, res){
     try {

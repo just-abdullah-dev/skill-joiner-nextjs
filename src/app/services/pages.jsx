@@ -1,12 +1,12 @@
-import Gradient from "@/components/BG/Gradient";
 import Layout from "@/components/Layout/Layout";
 
 export default function Home() {
   return (
     <Layout>
-      <Gradient>
-        Home Page
-      </Gradient>
+      <div className='h-screen w-full'>
+About PAGE
+</div>
+
     </Layout>
-  );
+  )
 }
