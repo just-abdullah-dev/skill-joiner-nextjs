@@ -1,7 +1,10 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import RegisterAsStd from "./RegisterAsStd";
 import RegisterAsClient from "./RegisterAsClient";
+import { useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 export default function Register() {
   const [btnText, setBtnText] = useState("");
@@ -9,6 +12,8 @@ export default function Register() {
   const [registerClient, setRegisterClient] = useState(false);
   const option_1 = "Join as a Client";
   const option_2 = "Join as a Student";
+  const {userInfo} = useSelector(state=>state.user);
+  const router = useRouter();
 
   function handleJoinBtn(){
     if(btnText === option_1){
@@ -19,6 +24,15 @@ export default function Register() {
       setRegisterStd(true);
     }
   }
+
+  useEffect(()=>{
+    if(userInfo?.success){
+      toast('Already logged in!', {
+        icon: '🔓',
+      });
+      router.push('/');
+    }
+  },[])
   return (
     <>
     {registerStd && <RegisterAsStd />}

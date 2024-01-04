@@ -38,7 +38,7 @@ export default async function handler (req, res){
         });
 
         return res.status(201).json({
-            status: true,
+            success: true,
             name: user.name,
             email:user.email,
             avatar:user.avatar,
