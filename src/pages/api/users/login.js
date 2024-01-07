@@ -17,7 +17,6 @@ export default async function handler(req, res){
         await connectDB();
         
         let user = await User.findOne({ email })
-        
         if (!user) {
             return errorHandler(res, 400, "Email is not registered.");
         } else {

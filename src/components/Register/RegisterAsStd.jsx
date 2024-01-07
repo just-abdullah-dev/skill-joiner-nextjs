@@ -131,7 +131,7 @@ export default function RegisterAsStd() {
                   handleChangeName(e);
                 }}
                 value={name.value}
-                className="block p-3 outline-none rounded-lg bg-light-soft w-full"
+                className="inputTag w-full"
                 type="text"
                 placeholder="Your Full Name..."
               />
@@ -145,7 +145,7 @@ export default function RegisterAsStd() {
                   handleChangeEmail(e);
                 }}
                 value={email.value}
-                className="block p-3 outline-none rounded-lg bg-light-soft w-full"
+                className="inputTag w-full"
                 type="email"
                 placeholder="Your Email"
               />
@@ -160,20 +160,20 @@ export default function RegisterAsStd() {
                   onChange={(e) => {
                     handleChangePassword(e);
                   }}
-                  className="block p-3 outline-none rounded-lg bg-light-soft w-full"
+                  className="inputTag w-full"
                   type={showPassword ? "text" : "password"}
                   placeholder="Create Strong Password"
                 />
                 {showPassword ? (
                   <button
-                    className="absolute right-6 bottom-3"
+                    className="absolute right-6 bottom-3 cursor-pointer"
                     onClick={() => setShowPassowrd(false)}
                   >
                     <Eye />
                   </button>
                 ) : (
                   <button
-                    className="absolute right-6 bottom-3"
+                    className="absolute right-6 bottom-3 cursor-pointer"
                     onClick={() => setShowPassowrd(true)}
                   >
                     <EyeOff />

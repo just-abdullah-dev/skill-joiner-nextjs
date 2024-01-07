@@ -13,6 +13,7 @@ module.exports = {
         secondary:'#1c1d22',
         dark:{
           hard:"#bababa",
+          grey:'#808080',
           // soft:"#0D2436",
         },
         light:{

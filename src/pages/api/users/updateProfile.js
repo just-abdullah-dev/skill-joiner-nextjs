@@ -64,8 +64,11 @@ const handler = async (req, res) => {
                 }
 
                 await user.save();
-                const updatedUser = await User.findById(user._id).select({password:0,otpCode:0})
-                res.status(200).json({ success: true, data: updatedUser });
+                const updatedUser = await User.findById(user._id).select({password:0,otpCode:0});
+                res.status(200).json({ success: true, data: {
+                    ...updatedUser._doc,
+                    token: await updatedUser.generateJWT(),
+                } });
             })();
         });
     } catch (error) {

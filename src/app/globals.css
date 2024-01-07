@@ -11,6 +11,19 @@ input[type="number"] {
   -moz-appearance: textfield; /* Firefox */
 }
 
+.inputTag {
+  @apply block p-3 outline-none rounded-lg bg-light-soft;
+}
+.labelTag{
+  @apply font-semibold text-dark-grey;
+}
+.actionButtonTag{
+  @apply p-2 rounded-lg bg-primary text-white hover:bg-primary_dark disabled:opacity-70 disabled:cursor-wait flex justify-center items-center;
+}
+.normalButtonTag{
+  @apply p-2 rounded-lg text-white disabled:opacity-70 disabled:cursor-wait flex justify-center items-center;
+
+}
 /* :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
