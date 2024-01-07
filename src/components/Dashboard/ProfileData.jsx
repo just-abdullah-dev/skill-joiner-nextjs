@@ -227,7 +227,7 @@ function ProfileData() {
                 />
               </>
             ) : (
-              <p className="leading-6">{userInfo?.bio}</p>
+              <p className="leading-6 font-semibold">{userInfo?.bio}</p>
             )}
             {isEdit ? (
               <>
@@ -241,7 +241,7 @@ function ProfileData() {
                 ></textarea>
               </>
             ) : (
-              <p className="leading-6">{userInfo?.about}</p>
+              <p className="leading-8 mt-4">{userInfo?.about}</p>
             )}
           </div>
         </div>
