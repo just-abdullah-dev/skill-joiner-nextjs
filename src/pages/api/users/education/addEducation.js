@@ -13,7 +13,7 @@ const handler = async (req, res) => {
         await connectDB();
         await userAuthGuard(req, res);
 
-        let { degree, field, institute, desc, startDate, endDate, isCompleted } = req.body;
+        let { degree, field, institute, desc, startDate, endDate, isCompleted } = JSON.parse(req.body);
 
         if (isCompleted == 'no') {
             endDate = '';

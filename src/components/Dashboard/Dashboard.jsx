@@ -5,6 +5,7 @@ import ProfessionAndSkills from './Profession&Skills';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
+import Education from './Education';
 
 export default function Dashboard() {
   const router = useRouter();
@@ -39,8 +40,17 @@ fetch("http://localhost:3000/api/users/getProfile", requestOptions)
   },[])
   return (
     <div className='flex flex-col items-center gap-6 my-32'>
-        <ProfileData />
+      {userProfile ?
+      <>
+      <ProfileData />
         <ProfessionAndSkills profession={userProfile?.profession} skills={userProfile?.skills} />
+        <Education userEducation={userProfile?.education} />
+      </>:
+      <div>Loading...
+        </div>
+
+      }
+        
     </div>
   )
 }

@@ -12,7 +12,7 @@ const handler = async (req, res) => {
         await connectDB();
         await userAuthGuard(req, res);
 
-        let { id, degree, field, institute, desc, startDate, endDate, isCompleted } = req.body;
+        let { id, degree, field, institute, desc, startDate, endDate, isCompleted } = JSON.parse(req.body);
 
         let edu = await Education.findById(id);
 
