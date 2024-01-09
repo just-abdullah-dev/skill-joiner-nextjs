@@ -15,12 +15,12 @@ import { useSelector } from "react-redux";
 
 function Education({ userEducation = [] }) {
   const [userEducationState, setUserEducationState] = useState(null);
-  const [isEdit, setIsEdit] = useState(true);
+  const [isAdd, setIsAdd] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
+  const [updateDocId, setUpdateDocId] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [selection, setSelection] = useState("");
   const { userInfo } = useSelector((state) => state.user);
-  console.log(userEducationState);
+
   const [degree, setDegree] = useState("");
   const [institute, setInstitute] = useState("");
   const [field, setField] = useState("");
@@ -33,36 +33,8 @@ function Education({ userEducation = [] }) {
     setUserEducationState(userEducation);
   }, [userEducation]);
 
-  async function handleAddEducation() {
-    setIsLoading(true);
-    const body = {
-      degree: degree.value,
-    };
-    setUserEducationState((oldSkills) => [...oldSkills, item]);
-
-    var requestOptions = {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${userInfo?.token}`,
-      },
-      redirect: "follow",
-      body: JSON.stringify(body),
-    };
-
-    fetch(`/api/users/education/addEducation`, requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        if (result?.success) {
-          toast.success(result?.message);
-        } else {
-          toast.error(result?.message);
-        }
-      })
-      .catch((error) => console.log("error", error));
-    setIsLoading(false);
-  }
-
   async function handleDeleteEdu(id) {
+    if(window.confirm('Do you want to remove this education?'))
     setUserEducationState((oldEdu) => {
       let array = [];
       oldEdu.map((item) => {
@@ -95,6 +67,14 @@ function Education({ userEducation = [] }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (isAdd) {
+      handleAddEducation();
+    } else if (isUpdate) {
+      handleUpdateEducation();
+    }
+  };
+
+  async function handleAddEducation() {
     setIsLoading(true);
     const body = {
       degree: degree,
@@ -128,8 +108,75 @@ function Education({ userEducation = [] }) {
         }
       })
       .catch((error) => console.log("error", error));
+    setDegree("");
+    setDesc("");
+    setStartDate("");
+    setEndDate("");
+    setIsCompleted(false);
+    setInstitute("");
+    setField("");
+    setUpdateDocId("");
+    setIsUpdate(false);
+    setIsAdd(false);
     setIsLoading(false);
-  };
+  }
+
+  async function handleUpdateEducation() {
+    setIsLoading(true);
+    const body = {
+      _id: updateDocId,
+      degree: degree,
+      institute: institute,
+      field: field,
+      desc: desc,
+      startDate: startDate,
+      endDate: endDate,
+      isCompleted: isCompleted ? "yes" : "no",
+    };
+
+    let array = [];
+    userEducationState.map((item) => {
+      if (item?._id == updateDocId) {
+        array.push({
+          ...body,
+          isCompleted: body?.isCompleted == "yes" ? true : false,
+        });
+        return;
+      }
+      array.push(item);
+    });
+    setUserEducationState(array);
+
+    var requestOptions = {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${userInfo?.token}`,
+      },
+      redirect: "follow",
+      body: JSON.stringify(body),
+    };
+    fetch(`/api/users/education/updateEducation`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        if (result?.success) {
+          toast.success(result?.message);
+        } else {
+          toast.error(result?.message);
+        }
+      })
+      .catch((error) => console.log("error", error));
+    setDegree("");
+    setDesc("");
+    setStartDate("");
+    setEndDate("");
+    setIsCompleted(false);
+    setInstitute("");
+    setField("");
+    setUpdateDocId("");
+    setIsUpdate(false);
+    setIsAdd(false);
+    setIsLoading(false);
+  }
 
   return (
     <div className="flex items-center justify-center">
@@ -137,11 +184,11 @@ function Education({ userEducation = [] }) {
         className={`relative flex flex-col flex-wrap justify-between gap-6 bg-white p-10 w-[800px] rounded-3xl shadow-[-6px_-1px_25px_5px_#00000024]`}
       >
         {/* edit btn  */}
-        {!isEdit && (
+        {!isAdd && (
           <button
             className="absolute top-10 right-10 scale-110"
             onClick={() => {
-              setIsEdit(true);
+              setIsAdd(true);
             }}
           >
             <PlusCircle className="stroke-primary" />
@@ -150,7 +197,7 @@ function Education({ userEducation = [] }) {
 
         <h1 className="text-2xl font-bold ml-6">Education</h1>
         <hr />
-        {isEdit && (
+        {(isAdd || isUpdate) && (
           <div className="flex items-center justify-center relative pt-4">
             <form
               onSubmit={handleSubmit}
@@ -159,7 +206,16 @@ function Education({ userEducation = [] }) {
               <button
                 className="absolute top-0 right-8 scale-110"
                 onClick={() => {
-                  setIsEdit(false);
+                  setDegree("");
+                  setDesc("");
+                  setStartDate("");
+                  setEndDate("");
+                  setIsCompleted(false);
+                  setInstitute("");
+                  setField("");
+                  setUpdateDocId("");
+                  setIsUpdate(false);
+                  setIsAdd(false);
                 }}
               >
                 <XCircle className="stroke-red-500" />
@@ -261,7 +317,13 @@ function Education({ userEducation = [] }) {
                 />
               </div>
               <button type="submit" className="actionButtonTag">
-                {isLoading ? <Loader2Icon className="animate-spin" /> : "Add"}
+                {isLoading ? (
+                  <Loader2Icon className="animate-spin" />
+                ) : isAdd ? (
+                  "Add"
+                ) : (
+                  "Update"
+                )}
               </button>
             </form>
           </div>
@@ -280,6 +342,18 @@ function Education({ userEducation = [] }) {
                         <button
                           disabled={isLoading}
                           onClick={() => {
+                            setDegree(item?.degree);
+                            setIsCompleted(item?.isCompleted);
+                            setInstitute(item?.institute);
+                            setField(item?.field);
+                            setUpdateDocId(item?._id);
+                            setDesc(item?.desc);
+                            setStartDate(() => {
+                              return item?.startDate.split("T")[0];
+                            });
+                            setEndDate(() => {
+                              return item?.endDate.split("T")[0];
+                            });
                             setIsUpdate(true);
                           }}
                           className="disabled:opacity-60 disabled:cursor-wait"
