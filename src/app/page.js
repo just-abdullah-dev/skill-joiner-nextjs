@@ -9,7 +9,9 @@ export default function Home() {
     //   </Gradient>
     // </Layout>
     <div>
+      Skill Joiner
       Home Page
+      By Abdullah
     </div>
   );
 }
