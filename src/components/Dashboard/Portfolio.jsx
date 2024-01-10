@@ -405,7 +405,7 @@ function Portfolio({ userPortfolio = [] }) {
                           height={200}
                           className="rounded-xl aspect-video"
                           src={"/media/" + pic}
-                          alt={`Image ${index}`}
+                          alt={`Image ${index + 1}`}
                         />
                       ))}
                     </div>
