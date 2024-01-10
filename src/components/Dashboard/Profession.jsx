@@ -1,44 +1,29 @@
 "use client";
-import { userActions } from "@/store/reducers/userReducer";
+import {getAllProfessions} from "@/services/getAllProfessions";
 import { Loader2Icon, PenSquare } from "lucide-react";
 import dynamic from "next/dynamic";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
-function Profession({userProfession}) {
+function Profession({ userProfession }) {
   const [isEdit, setIsEdit] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [professions, setProfessions] = useState([]);
   const [userProfessionState, setUserProfessionState] = useState(null);
-  const [selection, setSelection] = useState('');
-  const dispatch = useDispatch();
-  const {userInfo} = useSelector((state) => state.user);
+  const [selection, setSelection] = useState("");
+  const { userInfo } = useSelector((state) => state.user);
+  const [professions, setProfessions] = useState([]);
 
   useEffect(() => {
-    function getAll() {
-      var requestOptions = {
-        method: "GET",
-        redirect: "follow",
-      };
-
-      fetch("/api/superAdmin/profession/getAll", requestOptions)
-        .then((response) => response.json())
-        .then((result) => {
-          if (result?.success) {
-            setProfessions(() => {
-              return result?.data;
-            });
-          }
-        })
-        .catch((error) => console.log("error", error));
+    const getAll = ()=>{
+      getAllProfessions((data)=>{setProfessions(data)})
     }
     getAll();
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     setUserProfessionState(userProfession);
-  },[userProfession]);
+  }, [userProfession]);
 
   async function handleProfessionUpdate() {
     setIsLoading(true);
@@ -57,7 +42,7 @@ function Profession({userProfession}) {
       setIsLoading(false);
       return;
     }
-    
+
     var formdata = new FormData();
     const body = {
       profession: id,
@@ -87,11 +72,13 @@ function Profession({userProfession}) {
   }
 
   return (
-    <div className={`${'flex items-start justify-start gap-6'} relative w-full`}>
+    <div
+      className={`${"flex items-start justify-start gap-6"} relative w-full`}
+    >
       {/* edit btn  */}
       {!isEdit && (
         <PenSquare
-        size={20}
+          size={20}
           color="#595959"
           className="absolute top-0 right-0 cursor-pointer"
           onClick={() => {
@@ -100,30 +87,27 @@ function Profession({userProfession}) {
         />
       )}
       <h1 className="text-xl font-bold">Profession</h1>
-      {isEdit ? 
-      <div className="">
-      <input
-        className="inputTag w-[275px]"
-        type="text"
-        list="optionsList"
-        placeholder="Search or type SPACE to see list"
-        onChange={(e) => {
-          setSelection(e.target.value);
-        }}
-      />
-      <datalist id="optionsList" className="">
-        {professions &&
-          professions.map((item) => {
-            return (
-              <option
-                key={item?._id}
-                value={item?.name}
-              />
-            );
-          })}
-      </datalist>
-    </div>:
-    <h1 className="text-lg font-bold">{userProfessionState?.name}</h1>}
+      {isEdit ? (
+        <div className="">
+          <input
+            className="inputTag w-[275px]"
+            type="text"
+            list="optionsList"
+            placeholder="Search or type SPACE to see list"
+            onChange={(e) => {
+              setSelection(e.target.value);
+            }}
+          />
+          <datalist id="optionsList" className="">
+            {professions &&
+              professions.map((item) => {
+                return <option key={item?._id} value={item?.name} />;
+              })}
+          </datalist>
+        </div>
+      ) : (
+        <h1 className="text-lg font-bold">{userProfessionState?.name}</h1>
+      )}
 
       {/* update and close btn  */}
       {isEdit && (
@@ -150,4 +134,3 @@ function Profession({userProfession}) {
 }
 
 export default dynamic(() => Promise.resolve(Profession), { ssr: false });
-

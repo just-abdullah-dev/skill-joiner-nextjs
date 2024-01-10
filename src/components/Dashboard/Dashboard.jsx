@@ -7,6 +7,7 @@ import ProfileData from "./ProfileData";
 import ProfessionAndSkills from "./Profession&Skills";
 import Education from "./Education";
 import Portfolio from "./Portfolio";
+import Services from "./Services";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -38,15 +39,16 @@ export default function Dashboard() {
         .catch((error) => console.log("error", error));
     }
     getProfile();
-  }, []);
+  }, [userInfo]);
   return (
-    <div className="flex flex-col items-center gap-6 my-32">
+    <div className="flex flex-col items-center gap-6 my-32 relative">
       {userProfile ? (
         <>
         <ProfileData />
         <ProfessionAndSkills profession={userProfile?.profession} skills={userProfile?.skills} />
         <Education userEducation={userProfile?.education} />
         <Portfolio userPortfolio={userProfile?.portfolio} />
+        <Services userServices={userProfile?.services} />
         </>
       ) : (
         <div>Loading...</div>

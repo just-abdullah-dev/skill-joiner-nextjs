@@ -30,9 +30,9 @@ const handler = async (req, res) => {
             }
 
             const body = JSON.parse(req.body.body);
-            const { id, title, desc, start, end } = body;
+            const { _id, title, desc, start, end } = body;
 
-            let projectData = await Project.findById(id);
+            let projectData = await Project.findById(_id);
             if(!projectData){
                 return errorHandler(res, 404, "Project was not found.")
             }

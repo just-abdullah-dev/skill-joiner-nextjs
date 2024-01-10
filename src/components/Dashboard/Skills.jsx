@@ -1,4 +1,5 @@
 "use client";
+import { getAllSkills } from "@/services/getAllSkills";
 import { Loader2Icon, PenSquare, X } from "lucide-react";
 import dynamic from "next/dynamic";
 import React, { useEffect, useState } from "react";
@@ -14,22 +15,8 @@ function Skills({ userSkills = [] }) {
   const { userInfo } = useSelector((state) => state.user);
 
   useEffect(() => {
-    function getAll() {
-      var requestOptions = {
-        method: "GET",
-        redirect: "follow",
-      };
-
-      fetch("/api/superAdmin/skills/getAll", requestOptions)
-        .then((response) => response.json())
-        .then((result) => {
-          if (result?.success) {
-            setSkills(() => {
-              return result?.data;
-            });
-          }
-        })
-        .catch((error) => console.log("error", error));
+    const getAll = ()=>{
+      getAllSkills((data)=>{setSkills(data)})
     }
     getAll();
   }, []);
