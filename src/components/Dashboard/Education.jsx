@@ -335,7 +335,7 @@ function Education({ userEducation = [] }) {
                 return (
                   <div
                     key={item?._id}
-                    className="rounded-lg bg-rd-300 gap-2 relative px-12 py-6 shadow-[rgba(0,_0,_0,_0.24)_-1px_3px_8px]"
+                    className="rounded-lg bg-rd-300 gap-4 tracking-wide relative px-12 py-6 shadow-[rgba(0,_0,_0,_0.24)_-1px_3px_8px]"
                   >
                     {!isUpdate && (
                       <div className="absolute top-2 right-2 flex gap-3">
@@ -373,24 +373,25 @@ function Education({ userEducation = [] }) {
                     )}
                     <div className="flex items-center gap-2">
                       <h2 className="font-semibold text-dark-grey">Degree:</h2>
-                      <h1 className="font-bol">{item?.degree}</h1>
+                      <h1 className=" text-lg ">{item?.degree}</h1>
                     </div>
                     <div className="flex items-center gap-2">
                       <h2 className="font-semibold text-dark-grey">
                         Institute:
                       </h2>
-                      <h1 className="font-bol">{item?.institute}</h1>
+                      <h1 className=" text-lg ">{item?.institute}</h1>
                     </div>
                     <div className="flex items-center gap-2">
-                      <div className="flex items-center gap-2">
                         <h2 className="font-semibold text-dark-grey">Field:</h2>
-                        <h1 className="font-bol">{item?.field}</h1>
+                        <h1 className=" text-lg ">{item?.field}</h1>
                       </div>
+                    <div className="flex items-center gap-2">
+                      
                       <div className="flex items-center gap-2">
                         <h2 className="font-semibold text-dark-grey">
                           Start Date:
                         </h2>
-                        <h1 className="font-bol">
+                        <h1 className=" text-lg ">
                           {`${new Date(
                             item?.startDate
                           ).getUTCDate()}-${new Date(
@@ -405,7 +406,7 @@ function Education({ userEducation = [] }) {
                           <h2 className="font-semibold text-dark-grey">
                             End Date:
                           </h2>
-                          <h1 className="font-bol">
+                          <h1 className=" text-lg ">
                             {`${new Date(
                               item?.endDate
                             ).getUTCDate()}-${new Date(
@@ -428,7 +429,7 @@ function Education({ userEducation = [] }) {
                       <h2 className="font-semibold text-dark-grey">
                         Description:
                       </h2>
-                      <h1 className="font-bol">{item?.desc}</h1>
+                      <h1 className=" text-md ">{item?.desc}</h1>
                     </div>
                   </div>
                 );

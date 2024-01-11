@@ -127,15 +127,16 @@ function Skills({ userSkills = [] }) {
                   className="flex items-center justify-around rounded-lg w-fit px-2 h-[35px] bg-primary gap-2 text-white"
                 >
                   <h1 className="">{item?.name}</h1>
+                  {isEdit && 
                   <button
-                    disabled={isLoading}
-                    onClick={() => {
-                      handleDeleteSkill(item?._id);
-                    }}
-                    className="disabled:opacity-60 disabled:cursor-wait"
-                  >
-                    <X size={20} />
-                  </button>
+                  disabled={isLoading}
+                  onClick={() => {
+                    handleDeleteSkill(item?._id);
+                  }}
+                  className="disabled:opacity-60 disabled:cursor-wait"
+                >
+                  <X size={20} />
+                </button>}
                 </div>
               );
             })}

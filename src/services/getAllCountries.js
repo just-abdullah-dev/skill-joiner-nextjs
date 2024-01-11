@@ -1,16 +1,15 @@
-export const getAllProfessions = (callback) => {
+export const getAllCountries = (callback) => {
   var requestOptions = {
     method: "GET",
     redirect: "follow",
   };
 
-  fetch("/api/superAdmin/profession/getAll", requestOptions)
+  fetch("https://restcountries.com/v3.1/all", requestOptions)
     .then((response) => response.json())
     .then((result) => {
-      if (result?.success) {
-        callback(result?.data);
-      }
+      callback(result);
     })
     .catch((error) => console.log("error", error));
 };
+
 

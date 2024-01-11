@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
+import ChangePassword from "./ChangePassword";
 
 function ProfileData() {
   const [isEdit, setIsEdit] = useState(false);
@@ -128,6 +129,7 @@ function ProfileData() {
         }
       })
       .catch((error) => console.log("error", error));
+      setIsEdit(false);
       setIsLoading(false);
   }
   return (
@@ -266,6 +268,7 @@ function ProfileData() {
             </button>
           </div>
         )}
+      <ChangePassword />
       </div>
     </div>
   );

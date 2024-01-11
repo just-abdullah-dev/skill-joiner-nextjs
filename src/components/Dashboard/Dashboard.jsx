@@ -45,7 +45,7 @@ export default function Dashboard() {
       {userProfile ? (
         <>
         <ProfileData />
-        <ProfessionAndSkills profession={userProfile?.profession} skills={userProfile?.skills} />
+        <ProfessionAndSkills profession={userProfile?.profession} skills={userProfile?.skills} country={userProfile?.country} />
         <Education userEducation={userProfile?.education} />
         <Portfolio userPortfolio={userProfile?.portfolio} />
         <Services userServices={userProfile?.services} />
