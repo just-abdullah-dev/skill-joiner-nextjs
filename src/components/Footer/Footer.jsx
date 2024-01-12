@@ -53,7 +53,7 @@ export default function Footer() {
           </ul>
         </div>
       </div>
-      <p className="text-center">All rights are reserved. &copy; Skill Joiner 2024</p>
+      <p className="text-center">&copy; Skill Joiner 2024 | All rights are reserved.</p>
     </footer>
   );
 }

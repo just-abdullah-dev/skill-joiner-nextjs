@@ -8,8 +8,9 @@ export default async function handler(req, res){
     try {
     await  connectDB();
 
-    const { keyword } = req.query; 
+    const { keyword,limit } = req.query; 
     const searchResults = await User.aggregate([
+      { $limit: limit? parseInt(limit,10) : 4 },
       {
         $lookup: {
           from: 'professions',

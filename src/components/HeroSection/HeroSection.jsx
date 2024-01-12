@@ -20,7 +20,7 @@ export default function HeroSection() {
         }
     }
   return (
-    <div className="grid grid-cols-2 my-10">
+    <div className="grid grid-cols-2 my-6 p-4">
       <div className="font-bold text-5xl tracking-wider gap-4 flex flex-col items-start justify-center ">
         <h1 className=" ">
           <span className="text-primary">Skills</span> you need, delivered with{" "}
@@ -35,7 +35,7 @@ export default function HeroSection() {
           <input
             value={keyword}
             type="text"
-            placeholder="What are you looking for"
+            placeholder="What are you looking for?"
             className="inputTag w-full"
             onKeyDown={(e)=>{
                 handleKeyDown(e);
@@ -45,7 +45,7 @@ export default function HeroSection() {
             }}
           />
           <select 
-          className="absolute top-2 right-5 bg-white rounded-lg py-2 px-3"
+          className="absolute top-2 right-5 bg-white rounded-lg py-2 px-3 cursor-pointer"
           value={selection} 
           onChange={(e)=>{
             setSelection(e.target.value);

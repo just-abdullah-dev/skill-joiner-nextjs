@@ -6,7 +6,7 @@ export default function Layout({ children }) {
   return (
     <>
     <Header />
-    { children }
+    <div className='px-20 md:px-[7%]'>{children}</div>
     <Footer />
     </>
   )

@@ -8,14 +8,16 @@ export default async function handler(req, res){
     try {
     await  connectDB();
 
-    const { keyword } = req.query;
+    const { keyword,limit } = req.query;
     const searchResults = await JobPost.aggregate([
+      {$sort:{createdAt:-1}},
+      { $limit: limit? parseInt(limit,10) : 4 },
       {
         $lookup: {
           from: 'professions',
           localField: 'category',
           foreignField: '_id',
-          as: 'professionData',
+          as: 'profession',
         },
       },
       {
@@ -23,7 +25,7 @@ export default async function handler(req, res){
           from: 'users',
           localField: 'user',
           foreignField: '_id',
-          as: 'userData',
+          as: 'user',
         },
       },
       {
@@ -31,7 +33,7 @@ export default async function handler(req, res){
           from: 'skills',
           localField: 'skills',
           foreignField: '_id',
-          as: 'skillsData',
+          as: 'skills',
         },
       },
       {
@@ -41,8 +43,8 @@ export default async function handler(req, res){
               $or: [
                 { title: { $regex: keyword, $options: 'i' } },
                 { desc: { $regex: keyword, $options: 'i' } },
-                { 'professionData.possibleNames': { $regex: keyword, $options: 'i' } },
-                { 'skillsData.possibleNames': { $regex: keyword, $options: 'i' } },
+                { 'profession.possibleNames': { $regex: keyword, $options: 'i' } },
+                { 'skills.possibleNames': { $regex: keyword, $options: 'i' } },
               ],
             },
             { isHired: false }, 
@@ -56,14 +58,16 @@ export default async function handler(req, res){
           time: 1,
           budget: 1,
           isHired: 1,
-          professionData: {name: 1, slug: 1}, 
-          skillsData: {name: 1, slug: 1},
-          userData: {
+          profession: {name: 1, slug: 1}, 
+          skills: {name: 1, slug: 1},
+          user: {
             _id: 1,
             name: 1,
             username: 1,
             avatar: 1,
           },
+          createdAt: 1,
+          updatedAt: 1,
         },
       },
     ]);

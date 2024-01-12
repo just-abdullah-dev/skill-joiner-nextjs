@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import ProfileData from "./ProfileData";
-import ProfessionAndSkills from "./Profession&Skills";
+import CountryProfessionAndSkills from "./Profession&Skills";
 import Education from "./Education";
 import Portfolio from "./Portfolio";
 import Services from "./Services";
@@ -45,7 +45,7 @@ export default function Dashboard() {
       {userProfile ? (
         <>
         <ProfileData />
-        <ProfessionAndSkills profession={userProfile?.profession} skills={userProfile?.skills} country={userProfile?.country} />
+        <CountryProfessionAndSkills profession={userProfile?.profession} skills={userProfile?.skills} country={userProfile?.country} />
         <Education userEducation={userProfile?.education} />
         <Portfolio userPortfolio={userProfile?.portfolio} />
         <Services userServices={userProfile?.services} />

@@ -18,10 +18,8 @@ const projectSchema = mongoose.Schema(
   
   let Project;
   try {
-    // Try to retrieve the model if it's already registered
     Project = mongoose.model('Project');
   } catch (e) {
-    // If the model is not registered, create it
     Project = mongoose.model('Project', projectSchema);
   }
   

@@ -40,7 +40,7 @@ function Header() {
                         height={56}
                         src={'/logo.png'}
                         alt="Logo image" />
-                        Skill Joiner
+                        {/* Skill Joiner */}
                 </Link>
                 <div className={`md:hidden`}>
                     {isOpen ?

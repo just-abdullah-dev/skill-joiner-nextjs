@@ -8,14 +8,15 @@ export default async function handler(req, res){
     try {
     await  connectDB();
 
-    const { keyword } = req.query;
+    const { keyword,limit } = req.query;
     const searchResults = await Service.aggregate([
+      { $limit: limit? parseInt(limit,10) : 4 },
       {
         $lookup: {
           from: 'professions',
           localField: 'profession',
           foreignField: '_id',
-          as: 'professionData',
+          as: 'profession',
         },
       },
       {
@@ -23,7 +24,7 @@ export default async function handler(req, res){
           from: 'users',
           localField: 'user',
           foreignField: '_id',
-          as: 'userData',
+          as: 'user',
         },
       },
       {
@@ -31,7 +32,7 @@ export default async function handler(req, res){
           from: 'skills',
           localField: 'skills',
           foreignField: '_id',
-          as: 'skillsData',
+          as: 'skills',
         },
       },
       {
@@ -39,7 +40,7 @@ export default async function handler(req, res){
           from: 'packages',
           localField: 'packages',
           foreignField: '_id',
-          as: 'packagesData',
+          as: 'packages',
         },
       },
       {
@@ -47,7 +48,7 @@ export default async function handler(req, res){
           from: 'reviews',
           localField: 'reviews',
           foreignField: '_id',
-          as: 'reviewsData',
+          as: 'reviews',
         },
       },
       {
@@ -57,8 +58,8 @@ export default async function handler(req, res){
               $or: [
                 { title: { $regex: keyword, $options: 'i' } },
                 { desc: { $regex: keyword, $options: 'i' } },
-                { 'professionData.possibleNames': { $regex: keyword, $options: 'i' } },
-                { 'skillsData.possibleNames': { $regex: keyword, $options: 'i' } },
+                { 'profession.possibleNames': { $regex: keyword, $options: 'i' } },
+                { 'skills.possibleNames': { $regex: keyword, $options: 'i' } },
               ],
             },
             { publish: false }, 
@@ -70,11 +71,11 @@ export default async function handler(req, res){
           title: 1,
           photos: 1,
           videos: 1,
-          professionData: {name: 1, slug: 1}, 
-          skillsData: {name: 1, slug: 1},
-          packagesData: 1,
-          reviewsData: 1,
-          userData: {name: 1, avatar: 1, username: 1, _id:1},
+          profession: {name: 1, slug: 1}, 
+          skills: {name: 1, slug: 1},
+          packages: 1,
+          reviews: 1,
+          user: {name: 1, avatar: 1, username: 1, _id:1},
         },
       },
     ]);
