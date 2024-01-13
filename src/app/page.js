@@ -1,12 +1,12 @@
-import Gradient from "@/components/BG/Gradient";
-import CategoriesSection from "@/components/Categories/CategoriesSection";
-import HeroSection from "@/components/HeroSection/HeroSection";
-import JobsSection from "@/components/Jobs/JobsSection";
+import Gradient from "@/components/GradientBG/Gradient";
+import CategoriesSection from "@/components/HomePage/Categories/CategoriesSection";
+import HeroSection from "@/components/HomePage/HeroSection/HeroSection";
+import JobsSection from "@/components/HomePage/Jobs/JobsSection";
 import Layout from "@/components/Layout/Layout";
-import Newsletter from "@/components/Newsletter/Newsletter";
-import Partners from "@/components/Partners/partners";
-import ProjectsSection from "@/components/Projects/ProjectsSection";
-import ServiceSection from "@/components/Services/ServiceSection";
+import Newsletter from "@/components/HomePage/Newsletter/Newsletter";
+import ProjectsSection from "@/components/HomePage/Projects/ProjectsSection";
+import ServiceSection from "@/components/HomePage/Services/ServiceSection";
+import Partners from "@/components/HomePage/Partners/Partners";
 
 export default function Home() {
   return (

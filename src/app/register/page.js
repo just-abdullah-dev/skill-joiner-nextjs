@@ -1,5 +1,5 @@
-import Gradient from "@/components/BG/Gradient";
-import Register from "@/components/Register/Register";
+import Gradient from "@/components/GradientBG/Gradient";
+import Register from "@/components/Auth/User/Register/Register";
 import React from "react";
 
 export default function page() {

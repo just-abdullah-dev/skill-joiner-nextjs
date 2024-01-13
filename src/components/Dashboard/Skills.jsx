@@ -71,7 +71,7 @@ function Skills({ userSkills = [] }) {
     setIsLoading(false);
   }
 
-  async function handleDeleteSkill(id){  
+  async function handleDeleteSkill(id){   
     setUserSkillsState((oldSkills)=>{
       let array = [];
       oldSkills.map((skill)=>{

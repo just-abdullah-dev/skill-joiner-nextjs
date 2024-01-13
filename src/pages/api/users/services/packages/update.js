@@ -12,9 +12,9 @@ const handler = async (req, res) => {
         await connectDB();
         await userAuthGuard(req, res);
 
-        const { id, title, price, time, desc } = req.body;
+        const { _id, title, price, time, desc } = JSON.parse(req.body);
 
-        let pkg = await Package.findById(id);
+        let pkg = await Package.findById(_id);
 
         pkg.title = title || pkg.title;
         pkg.desc = desc || pkg.desc;

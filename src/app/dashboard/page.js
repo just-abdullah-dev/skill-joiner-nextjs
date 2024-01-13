@@ -1,4 +1,4 @@
-import Gradient from '@/components/BG/Gradient'
+import Gradient from '@/components/GradientBG/Gradient'
 import Dashboard from '@/components/Dashboard/Dashboard';
 import Layout from '@/components/Layout/Layout';
 import React from 'react'

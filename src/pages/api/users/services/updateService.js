@@ -31,7 +31,7 @@ const handler = async (req, res) => {
             }
 
             const body = JSON.parse(req.body.body);
-            const { id, title, desc, profession, skills, publish } = body;
+            const { id, title, desc, slug, profession, skills, publish } = body;
             let service = await Service.findById(id);
             if(!service){
                 return errorHandler(res, 404, "Service was not found.")
@@ -44,6 +44,7 @@ const handler = async (req, res) => {
             }
             service.title = title || service.desc;
             service.desc = desc || service.desc;
+            service.slug = slug || service.slug;
             service.profession = profession || service.profession;
             service.skills = skills || service.skills;
 

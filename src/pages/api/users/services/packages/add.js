@@ -13,7 +13,7 @@ const handler = async (req, res) => {
         await connectDB();
         await userAuthGuard(req, res);
 
-        const { title, price, time, desc, serviceId } = req.body;
+        const { title, price, time, desc, serviceId } = JSON.parse(req.body);
         let service = await Service.findById(serviceId);
         if(!service){
             return errorHandler(res, 404, "Service was not found.")

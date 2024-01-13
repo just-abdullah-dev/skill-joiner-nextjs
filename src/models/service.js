@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const serviceSchema = mongoose.Schema(
     {
         title: {type: String, required: true},
-        slug: {type: String, default: ''},
+        slug: {type: String, default: '', unique: true},
         desc: {type: String, required: true},
         publish: {type: Boolean, default: false},
         photos: {type: [String]},

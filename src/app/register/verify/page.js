@@ -1,5 +1,5 @@
-import Gradient from "@/components/BG/Gradient";
-import OTPVerification from "@/components/Register/OTPVerification";
+import Gradient from "@/components/GradientBG/Gradient";
+import OTPVerification from "@/components/Auth/User/Register/OTPVerification";
 import React from "react";
 
 export default function page({searchParams}) {

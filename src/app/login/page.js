@@ -1,5 +1,5 @@
-import Gradient from "@/components/BG/Gradient";
-import Login from "@/components/Login/Login";
+import Gradient from "@/components/GradientBG/Gradient";
+import Login from "@/components/Auth/User/Login/Login";
 import React from "react";
 
 export default function page() {

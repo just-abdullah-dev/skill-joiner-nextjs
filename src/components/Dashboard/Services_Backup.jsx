@@ -20,8 +20,7 @@ function ServicesB({ userServices = [] }) {
   const [isAdd, setIsAdd] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { userInfo } = useSelector((state) => state.user);
-  const [userServicesState, setUserServicesState] = useState(null);
+  const [userServices, setUserServices] = useState(null);
   const router = useRouter();
 
   const [updateDocId, setUpdateDocId] = useState("");

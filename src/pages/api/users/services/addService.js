@@ -31,20 +31,21 @@ const handler = async (req, res) => {
             }
 
             const body = JSON.parse(req.body.body);
-            let { title, desc, profession, skills, packages, publish } = body;
+            
+            let { title, desc, profession, slug, skills, packages, publish } = body;
             if(publish == 'yes'){
                 publish = true;
             }else if(publish == 'no'){
                 publish = false;
             }
             let service = await Service.create({
-                title, desc, profession, skills, publish,
+                title, desc, profession, skills, publish, slug,
                 user: req.user._id
             });
             
             // Creating packages and adding them into 
             // the service packages array
-            if(packages.length > 0){
+            if(packages && packages.length > 0){
                 packages.map((item)=>{
                     const main = async()=>{
                         await Package.create({
