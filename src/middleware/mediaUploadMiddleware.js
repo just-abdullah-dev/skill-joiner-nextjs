@@ -20,7 +20,8 @@ export const mediaUploadMiddleware = multer({
         if(ext !== ".png" && ext !== ".jpg" && ext !== ".jpeg" && 
         ext !== ".pdf" && ext !== ".mp4" && ext !== ".PNG" && ext !== ".JPG" && 
         ext !== ".JPEG" && ext !== ".PDF" && ext !== ".MP4" && ext !== ".doc" && ext !== ".DOC" && 
-        ext !== ".docx" && ext !== ".DOCX" && ext !== ".zip" && ext !== ".ZIP" 
+        ext !== ".docx" && ext !== ".DOCX" && ext !== ".zip" && ext !== ".ZIP"  && ext !== ".html" && 
+        ext !== ".HTML" && ext !== ".xlsx" && ext !== ".xlsx" && ext !== ".ppt" && ext !== ".ppt"
         && ext !== ".rar" && ext !== ".RAR"){
             return cb(new Error("File Type Error. Kindly upload only mentioned file type."));
         }

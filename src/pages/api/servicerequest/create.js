@@ -27,7 +27,7 @@ const handler = async (req, res) => {
         ])(req, res, async (err) => {
             if (err) {
                 console.error(err);
-                return res.status(500).send(err.message);
+                return errorHandler(res,500,err.message);
             }
 
             const body = JSON.parse(req.body.body);

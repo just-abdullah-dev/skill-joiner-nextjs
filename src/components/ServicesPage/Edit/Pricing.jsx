@@ -4,17 +4,15 @@ import {
   MinusCircle,
   PenSquare,
   PlusCircle,
-  PlusIcon,
-  X,
   XCircle,
 } from "lucide-react";
 import dynamic from "next/dynamic";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
-
+let isFirstRun = true;
 function Pricing({ servicePackages = [], serviceId }) {
-  const [packages, setPackages] = useState(null);
+  const [packages, setPackages] = useState([]);
   const [isAdd, setIsAdd] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
   const [updateDocId, setUpdateDocId] = useState("");
@@ -27,8 +25,14 @@ function Pricing({ servicePackages = [], serviceId }) {
   const [time, setTime] = useState("");
 
   useEffect(() => {
-    setPackages(servicePackages);
-  }, [servicePackages]);
+    const set = ()=>{
+      setPackages(servicePackages);
+    }
+    if(servicePackages[0] && isFirstRun){
+      set();
+      isFirstRun = false;
+    }
+  }, [servicePackages, isFirstRun]);
 
   async function handleDeletePkg(id) {
     if (window.confirm("Do you want to remove this package?"))
@@ -50,7 +54,7 @@ function Pricing({ servicePackages = [], serviceId }) {
       redirect: "follow",
     };
 
-    fetch(`/api/users/services/packages?id=${id}`, requestOptions)
+    fetch(`/api/users/services/packages/delete?id=${id}`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result?.success) {
@@ -166,7 +170,7 @@ function Pricing({ servicePackages = [], serviceId }) {
         className={`relative flex flex-col flex-wrap justify-between gap-6 bg-white p-10 w-[800px] rounded-3xl shadow-[-6px_-1px_25px_5px_#00000024]`}
       >
         {/* edit btn  */}
-        {!isAdd && (
+        {packages.length < 3 && !isAdd && (
           <button
             className="absolute top-10 right-10 scale-110"
             onClick={() => {
@@ -176,8 +180,9 @@ function Pricing({ servicePackages = [], serviceId }) {
             <PlusCircle className="stroke-primary" />
           </button>
         )}
+        {packages.length == 3 && <p className=" text-sm text-dark-grey absolute top-10 right-10">Only 3 packages are allowed.</p>}
 
-        <h1 className="text-2xl font-bold ml-6">Education</h1>
+        <h1 className="text-2xl font-bold ml-6">Pricing</h1>
         <hr />
         {(isAdd || isUpdate) && (
           <div className="flex items-center justify-center relative pt-4">
@@ -247,13 +252,13 @@ function Pricing({ servicePackages = [], serviceId }) {
                 <label className="labelTag" htmlFor="time">
                   Time in days:
                 </label>
-                <textarea
+                <input
                   className="inputTag w-full"
                   id="time"
                   value={time}
                   onChange={(e) => setTime(e.target.value)}
                   required
-                ></textarea>
+                ></input>
               </div>
 
               <button type="submit" className="actionButtonTag">

@@ -27,13 +27,13 @@ const handler = async (req, res) => {
         ])(req, res, async (err) => {
             if (err) {
                 console.error(err);
-                return res.status(500).send(err.message);
+                return errorHandler(res,500,err.message)
             }
 
             const body = JSON.parse(req.body.body);
-            const { title, desc, time, budget, category, skills } = body;
+            const { _id, title, desc, time, budget, category, skills } = body;
             
-            let Post = await JobPost.findById(id);
+            let Post = await JobPost.findById(_id);
             
             Post.title = title || Post.title;
             Post.desc = desc || Post.desc;

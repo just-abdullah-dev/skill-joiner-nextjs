@@ -1,12 +1,8 @@
 "use client";
 import {
-  Eye,
   Loader2Icon,
-  MinusCircle,
-  PenSquare,
   PlusCircle,
   X,
-  XCircle,
 } from "lucide-react";
 import dynamic from "next/dynamic";
 import React, { useEffect, useState } from "react";
@@ -15,28 +11,28 @@ import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { getAllProfessions } from "@/services/getAllProfessions";
 import { getAllSkills } from "@/services/getAllSkills";
-import { getServiceById } from "@/services/getServiceById";
 import Link from "next/link";
-import Pricing from "./Pricing";
+import { getJobById } from "@/services/getJobById";
 
-function EditService({ id }) {
+function EditJob({ id }) {
   const { userInfo } = useSelector((state) => state.user);
   const [professions, setProfessions] = useState([]);
   const [skills, setSkills] = useState([]);
   const router = useRouter();
-  const [service, setService] = useState(null);
+  const [job, setJob] = useState(null);
   const [isAdd, setIsAdd] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
-  const [slug, setSlug] = useState("");
-  const [publish, setPublish] = useState(false);
+  const [time, setTime] = useState("");
+  const [budget, setBudget] = useState("");
   const [photos, setPhotos] = useState([]);
   const [videos, setVideos] = useState([]);
-  const [serviceProfession, setServiceProfession] = useState("");
-  const [serviceSkills, setServiceSkills] = useState([]);
+  const [docs, setDocs] = useState([]);
+  const [jobProfession, setJobProfession] = useState("");
+  const [jobSkills, setJobSkills] = useState([]);
 
   const [professionSelection, setProfessionSelection] = useState("");
   const [skillSelection, setSkillSelection] = useState("");
@@ -45,10 +41,6 @@ function EditService({ id }) {
     if (!userInfo) {
       router.push("/");
       toast.error("Log in to get access.");
-    }
-    if (!userInfo?.student) {
-      router.push("/");
-      toast.error("Sign up as student to get access.");
     }
   }, [router, userInfo]);
 
@@ -67,8 +59,8 @@ function EditService({ id }) {
   useEffect(() => {
     if (id != "new") {
       const get = () => {
-        getServiceById(id, (data) => {
-          setService(data);
+        getJobById(id, (data) => {
+          setJob(data);
         });
       };
       get();
@@ -79,20 +71,20 @@ function EditService({ id }) {
   }, []);
 
   useEffect(() => {
-    if (service) {
-      setTitle(service?.title);
-      setSlug(service?.slug);
-      setDesc(service?.desc);
-      setPublish(service?.publish);
-      setServiceProfession(service?.profession);
-      setProfessionSelection(service?.profession?.name);
-      setServiceSkills(service?.skills);
+    if (job) {
+      setTitle(job?.title);
+      setDesc(job?.desc);
+      setTime(job?.time);
+      setBudget(job?.budget);
+      setJobProfession(job?.profession);
+      setProfessionSelection(job?.category?.name);
+      setJobSkills(job?.skills);
     }
-  }, [service]);
+  }, [job]);
 
   const handleAddSkill = () => {
-      for (let index = 0; index < serviceSkills.length; index++) {
-        const skill = serviceSkills[index];
+      for (let index = 0; index < jobSkills.length; index++) {
+        const skill = jobSkills[index];
         if (skillSelection == skill?.name) {
           alert("Skill already added.");
           return;
@@ -102,7 +94,7 @@ function EditService({ id }) {
     for (let index = 0; index < skills.length; index++) {
       const item = skills[index];
       if (item?.name == skillSelection) {
-        setServiceSkills(oldSkills=>[...oldSkills, item]);
+        setJobSkills(oldSkills=>[...oldSkills, item]);
         setSkillSelection('');
         skill_id = item?._id;
         break;
@@ -125,6 +117,9 @@ function EditService({ id }) {
       case "videos":
         setVideos([...videos, ...files]);
         break;
+        case "docs":
+        setDocs([...docs, ...files]);
+        break;
       default:
         break;
     }
@@ -133,13 +128,13 @@ function EditService({ id }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (isAdd) {
-      handleAddService();
+      handleAddJob();
     } else if (isUpdate) {
-      handleUpdateService();
+      handleUpdateJob();
     }
   };
 
-  async function handleAddService() {
+  async function handleAddJob() {
     setIsLoading(true);
 
     let pro_id = null;
@@ -147,7 +142,7 @@ function EditService({ id }) {
       const item = professions[index];
       if (item?.name == professionSelection) {
         pro_id = item?._id;
-        setServiceProfession(item?._id);
+        setJobProfession(item?._id);
         break;
       }
     }
@@ -156,21 +151,21 @@ function EditService({ id }) {
       setIsLoading(false);
       return;
     }
-    if (!serviceSkills[0]) {
+    if (!jobSkills[0]) {
       alert("Kindly add atleast one skill.");
       setIsLoading(false);
       return;
     }
     let skills_id = [];
-    serviceSkills.map((item)=>{
+    jobSkills.map((item)=>{
       skills_id.push(item?._id);
     })
     const body = {
       title: title,
       desc: desc,
-      slug: slug,
-      publish: publish ? "yes" : "no",
-      profession: serviceProfession ? serviceProfession : pro_id,
+      time: time,
+      budget: budget,
+      category: jobProfession ? jobProfession : pro_id,
       skills: skills_id,
     };
     
@@ -182,6 +177,10 @@ function EditService({ id }) {
 
     videos.forEach((vid) => {
       formdata.append("videos", vid, vid?.name);
+    });
+
+    docs.forEach((doc) => {
+      formdata.append("docs", doc, doc?.name);
     });
 
     var requestOptions = {
@@ -192,12 +191,12 @@ function EditService({ id }) {
       redirect: "follow",
       body: formdata,
     };
-    fetch(`/api/users/services/addService`, requestOptions)
+    fetch(`/api/jobpost/create`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result?.success) {
           toast.success(result?.message);
-          router.push(`/services/edit/${result?.data?._id}`)
+          router.push(`/jobs/edit/${result?.data?._id}`)
         } else {
           toast.error(result?.message);
         }
@@ -206,7 +205,7 @@ function EditService({ id }) {
       .catch((error) => console.log("error", error));
   }
 
-  async function handleUpdateService() {
+  async function handleUpdateJob() {
     setIsLoading(true);
     
     let pro_id = null;
@@ -214,33 +213,32 @@ function EditService({ id }) {
       const item = professions[index];
       if (item?.name == professionSelection) {
         pro_id = item?._id;
-        setServiceProfession(item?._id);
+        setJobProfession(item?._id);
         break;
       }
     }
-    
       if (!pro_id) {
         alert("Kindly select the profession from list.");
         setIsLoading(false);
         return;
       }
     
-    if (!serviceSkills[0]) {
+    if (!jobSkills[0]) {
       alert("Kindly add atleast one skill.");
       setIsLoading(false);
       return;
     }
     let skills_id = [];
-    serviceSkills.map((item)=>{
+    jobSkills.map((item)=>{
       skills_id.push(item?._id);
     })
     const body = {
       _id: id,
       title: title,
       desc: desc,
-      slug: slug,
-      publish: publish ? "yes" : "no",
-      profession: serviceProfession ? serviceProfession : pro_id,
+      time: time,
+      budget: budget,
+      category: jobProfession ? jobProfession : pro_id,
       skills: skills_id,
     };
     let formdata = new FormData();
@@ -252,6 +250,9 @@ function EditService({ id }) {
     videos.forEach((vid) => {
       formdata.append("videos", vid, vid?.name);
     });
+    docs.forEach((doc) => {
+      formdata.append("docs", doc, doc?.name);
+    });
 
     var requestOptions = {
       method: "PUT",
@@ -261,7 +262,7 @@ function EditService({ id }) {
       redirect: "follow",
       body: formdata,
     };
-    fetch(`/api/users/services/updateService`, requestOptions)
+    fetch(`/api/jobpost/update`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         if (result?.success) {
@@ -278,12 +279,12 @@ function EditService({ id }) {
 
   return (
     <div className="mb-24 grid gap-6">
-      <div className="bg-white relative font-semibold text-center text-4xl py-4">
-        <h1>Services</h1>{" "}
+      <div className="bg-white relative font-semibold text-center text-4xl py-4 flex gap-2 items-center justify-center">
+        <h1>{isAdd?'Post a ':'Update a '}</h1> <span className=' text-primary'>Job</span>{" "} 
         {isUpdate && (
           <Link
             className="absolute top-6 right-10 text-base"
-            href={`/services/${slug}`}
+            href={`/jobs/${id}`}
           >
             Preview
           </Link>
@@ -296,9 +297,8 @@ function EditService({ id }) {
           className="flex items-center justify-center relative pt-4 w-full"
         >
           <form onSubmit={handleSubmit} className="grid flex-wrap gap-8 w-full">
-            {/* title, slug  */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div>
+          {/* title  */}
+          <div>
                 <label className="labelTag" htmlFor="title">
                   Title:
                 </label>
@@ -311,21 +311,7 @@ function EditService({ id }) {
                   required
                 />
               </div>
-              <div>
-                <label className="labelTag" htmlFor="slug">
-                  Slug:
-                </label>
-                <input
-                  className="inputTag w-full"
-                  type="text"
-                  id="slug"
-                  value={slug}
-                  onChange={(e) => setSlug(e.target.value)}
-                  required
-                />
-              </div>
-            </div>
-            {/* desc  */}
+              {/* desc  */}
             <div>
               <label className="labelTag" htmlFor="desc">
                 Description:
@@ -338,6 +324,37 @@ function EditService({ id }) {
                 required
               ></textarea>
             </div>
+            {/* time, budget  */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              
+              <div>
+                <label className="labelTag" htmlFor="time">
+                  Time in days:
+                </label>
+                <input
+                  className="inputTag w-full"
+                  type="number"
+                  id="time"
+                  value={time}
+                  onChange={(e) => setTime(e.target.value)}
+                  required
+                />
+              </div>
+              <div>
+                <label className="labelTag" htmlFor="budget">
+                  Budget:
+                </label>
+                <input
+                  className="inputTag w-full"
+                  type="text"
+                  id="budget"
+                  value={budget}
+                  onChange={(e) => setBudget(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+            
             {/* profession, skills  */}
             <div className="flex gap-6 items-start justify-start">
               <div className=" w-1/3">
@@ -381,8 +398,8 @@ function EditService({ id }) {
                   </datalist>
                 </div>
                 <div className="flex items-center flex-wrap gap-6 w-1/2">
-                  {serviceSkills &&
-                    serviceSkills.map((item) => {
+                  {jobSkills &&
+                    jobSkills.map((item) => {
                       return (
                         <div
                           key={item?._id}
@@ -392,7 +409,7 @@ function EditService({ id }) {
                           <button
                             disabled={isLoading}
                             onClick={() => {
-                              setServiceSkills((oldSkills)=>{
+                              setJobSkills((oldSkills)=>{
                                 let array = [];
                                 oldSkills.map((skill)=>{
                                   if(skill?._id != item?._id){
@@ -412,7 +429,7 @@ function EditService({ id }) {
                 </div>
               </div>
             </div>
-            {/* photos, videos and publish  */}
+            {/* photos, videos and docs  */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div>
                 <h3 className="labelTag">Upload Photos</h3>
@@ -434,21 +451,14 @@ function EditService({ id }) {
                   onChange={(e) => handleFileChange(e, "videos")}
                 />
               </div>
-              <div className="flex gap-4 items-center justify-around">
-                <label
-                  className={`${
-                    !publish
-                      ? "border-green-500 text-green-500"
-                      : "border-red-600 text-red-600"
-                  } p-3 mt-4 w-full border-2 rounded-xl cursor-pointer text-center`}
-                >
-                  <input
-                    className="absolute opacity-0"
-                    type="checkbox"
-                    onChange={() => setPublish(!publish)}
-                  />
-                  {publish ? "Unpublish" : "Publish"}
-                </label>
+              <div>
+                <h3 className="labelTag">Documents</h3>
+                <input
+                  className="inputTag text-dark-grey w-full"
+                  type="file"
+                  multiple
+                  onChange={(e) => handleFileChange(e, "docs")}
+                />
               </div>
             </div>
 
@@ -456,7 +466,7 @@ function EditService({ id }) {
               {isLoading ? (
                 <Loader2Icon className="animate-spin" />
               ) : isAdd ? (
-                "Add"
+                "Post"
               ) : (
                 "Update"
               )}
@@ -464,9 +474,7 @@ function EditService({ id }) {
           </form>
         </div>
       )}
-      {isUpdate && 
-      <Pricing serviceId={service?._id} servicePackages={service?.packages} />}
     </div>
   );
 }
-export default dynamic(() => Promise.resolve(EditService), { ssr: false });
+export default dynamic(() => Promise.resolve(EditJob), { ssr: false });

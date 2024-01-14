@@ -27,12 +27,12 @@ const handler = async (req, res) => {
         ])(req, res, async (err) => {
             if (err) {
                 console.error(err);
-                return res.status(500).send(err.message);
+                return errorHandler(res,500,err.message);
             }
 
             const body = JSON.parse(req.body.body);
-            const { id, title, desc, slug, profession, skills, publish } = body;
-            let service = await Service.findById(id);
+            const { _id, title, desc, slug, profession, skills, publish } = body;
+            let service = await Service.findById(_id);
             if(!service){
                 return errorHandler(res, 404, "Service was not found.")
             }

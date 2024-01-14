@@ -7,19 +7,14 @@ import Newsletter from "@/components/HomePage/Newsletter/Newsletter";
 import ProjectsSection from "@/components/HomePage/Projects/ProjectsSection";
 import ServiceSection from "@/components/HomePage/Services/ServiceSection";
 import Partners from "@/components/HomePage/Partners/Partners";
+import HomePage from "@/components/HomePage/HomePage";
 
 export default function Home() {
   return (
     <Layout>
       <Gradient>
         <div className="grid gap-10">
-          <HeroSection />
-          <CategoriesSection />
-          <ServiceSection />
-          <JobsSection />
-          <ProjectsSection />
-          <Newsletter />
-          <Partners />
+          <HomePage />
         </div>
       </Gradient>
     </Layout>

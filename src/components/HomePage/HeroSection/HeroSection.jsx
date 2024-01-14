@@ -20,7 +20,7 @@ export default function HeroSection() {
         }
     }
   return (
-    <div className="grid grid-cols-2 my-6 p-4">
+    <div className="grid grid-cols-2 mt-6 p-4">
       <div className="font-bold text-5xl tracking-wider gap-4 flex flex-col items-start justify-center ">
         <h1 className=" ">
           <span className="text-primary">Skills</span> you need, delivered with{" "}

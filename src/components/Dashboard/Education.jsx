@@ -437,7 +437,8 @@ function Education({ userEducation = [] }) {
             </div>
           ) : (
             <div className="flex items-center justify-center">
-              <Loader2Icon className="animate-spin" />
+              Click plus button to education.
+              {/* <Loader2Icon className="animate-spin" /> */}
             </div>
           )}
         </div>

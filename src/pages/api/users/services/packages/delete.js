@@ -14,7 +14,6 @@ const handler = async (req, res) => {
         await connectDB();
         await userAuthGuard(req, res);
         const { id } = req.query;
-
         const pkg = await Package.findById(id);
         if(!pkg){
             return errorHandler(res, 404, "Package was not found.")

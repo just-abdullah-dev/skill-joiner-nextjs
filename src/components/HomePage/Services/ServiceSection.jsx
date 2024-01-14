@@ -3,13 +3,18 @@ import { Loader2Icon } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import ServicesTile from "./ServicesTile";
 import { getServices } from "@/services/getServices";
+import toast from "react-hot-toast";
 
 export default function ServiceSection() {
   const [services, setServices] = useState([]);
   useEffect(() => {
     const getAll = () => {
       getServices({keyword:'',limit:4}, (data) => {
-        setServices(data);
+        if(data?.success){
+          setServices(data?.data);
+        }else{
+          toast?.error(data?.message)
+        }
       });
     };
     getAll();

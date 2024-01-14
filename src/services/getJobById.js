@@ -1,13 +1,15 @@
-export const getServices = ({keyword='',limit=4},callback) => {
+export const getJobById= (id,callback) => {
   var requestOptions = {
     method: "GET",
     redirect: "follow",
   };
 
-  fetch(`/api/search/services/search?keyword=${keyword}&limit=${limit}`, requestOptions)
+  fetch(`/api/jobpost/getJobById?id=${id}`, requestOptions)
     .then((response) => response.json())
     .then((result) => {
-        callback(result);
+      if (result?.success) {
+        callback(result?.data);
+      }
     })
     .catch((error) => console.log("error", error));
 };

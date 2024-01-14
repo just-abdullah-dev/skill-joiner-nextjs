@@ -14,7 +14,13 @@ const handler = async (req, res) => {
   try {
     await connectDB();
     const { id } = req.query;
-    const service = await Service.findById(id).populate(['packages','skills','profession']);
+    const service = await Service.findById(id)
+    .populate([
+      { path: 'packages' },
+      { path: 'skills' },
+      { path: 'profession' },
+      { path: 'user', select: 'name avatar bio about username' }
+    ]);
     if (!service) {
       return errorHandler(res, 404, "Service was not found.");
     }
