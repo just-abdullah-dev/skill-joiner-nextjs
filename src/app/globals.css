@@ -18,10 +18,10 @@ input[type="number"] {
   @apply font-semibold text-dark-grey;
 }
 .actionButtonTag{
-  @apply p-2 rounded-lg bg-primary text-white hover:bg-primary_dark disabled:opacity-70 disabled:cursor-wait flex justify-center items-center;
+  @apply p-2 rounded-lg bg-primary text-white hover:bg-primary_dark disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center;
 }
 .normalButtonTag{
-  @apply p-2 rounded-lg text-white disabled:opacity-70 disabled:cursor-wait flex justify-center items-center;
+  @apply p-2 rounded-lg text-white disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center;
 
 }
 /* :root {

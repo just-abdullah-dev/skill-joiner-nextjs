@@ -7,9 +7,8 @@ export const getJobById= (id,callback) => {
   fetch(`/api/jobpost/getJobById?id=${id}`, requestOptions)
     .then((response) => response.json())
     .then((result) => {
-      if (result?.success) {
-        callback(result?.data);
-      }
+        callback(result);
+      
     })
     .catch((error) => console.log("error", error));
 };

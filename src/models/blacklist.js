@@ -14,10 +14,8 @@ const blacklistSchema = mongoose.Schema(
 
   let Blacklist;
   try {
-    // Try to retrieve the model if it's already registered
     Blacklist = mongoose.model('Blacklist');
   } catch (e) {
-    // If the model is not registered, create it
     Blacklist = mongoose.model('Blacklist', blacklistSchema);
   }
   

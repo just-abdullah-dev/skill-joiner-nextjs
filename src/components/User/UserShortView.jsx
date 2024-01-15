@@ -10,7 +10,7 @@ export default function UserShortView({user}) {
         <Image
             height={150}
             width={150}
-            className=' aspect-auto rounded-full shadow-lg'
+            className=' aspect-square rounded-full shadow-lg'
             alt='Profile picture'
             src={`/media${user?.avatar}`}
             />

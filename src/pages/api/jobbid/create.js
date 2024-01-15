@@ -4,6 +4,7 @@ import { mediaUploadMiddleware } from '@/middleware/mediaUploadMiddleware';
 import { reqMethodError } from '@/utils/reqError';
 import { userAuthGuard } from '@/middleware/userMiddlewares';
 import JobBid from '@/models/jobBid';
+import JobPost from '@/models/jobPost'
 
 export const config = {
     api: {
@@ -30,6 +31,11 @@ const handler = async (req, res) => {
 
             const body = JSON.parse(req.body.body);
             const { desc, time, budget, jobPost, } = body;
+            
+            let post = await JobPost.findById(jobPost);
+            if(!post){
+                return errorHandler(res, 404, 'Job was not found.')
+            }
             
             let bid = await JobBid.create({
                 desc, time, budget, jobPost,
@@ -63,6 +69,8 @@ const handler = async (req, res) => {
                 Bid.docs = docs;
             }
             await Bid.save();
+            post.biders.push(req.user._id);
+            await post.save();
             res.status(201).json({ success: true,
                 data: Bid, 
                 message: 'Job Bid created successfully' });

@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import PricingOpt from "./PricingOpt";
 import ShareOnMedia from "@/components/utils/ShareOnMedia";
+import RelatedServices from "./RelatedServices";
 
 export default function DisplayService({ id }) {
   const [service, setService] = useState(null);
@@ -37,7 +38,7 @@ export default function DisplayService({ id }) {
               width={700}
               className=" aspect-auto"
               alt="Picture"
-              src={`/media/${service?.photos[0]}`}
+              src={service?.photos[0]?`/media/${service?.photos[0]}`:'/sample.jpg'}
             />
           </div>
 
@@ -68,6 +69,10 @@ export default function DisplayService({ id }) {
             })}
             </div>
           </div>
+
+          {/* Related services  */}
+          {service && 
+          <RelatedServices keyword={service?.profession?.name} id={id} />}
         </div>
 
         {/* 2nd column user  */}

@@ -3,6 +3,8 @@ import errorHandler from "@/middleware/errorHandler";
 import { reqMethodError } from "@/utils/reqError";
 import JobPost from "@/models/jobPost";
 import User from "@/models/user";
+import Skill from '@/models/skills';
+import Profession from "@/models/profession";
 
 const handler = async (req, res) => {
   if (req.method !== "GET") {

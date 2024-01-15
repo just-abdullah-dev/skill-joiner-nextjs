@@ -7,9 +7,7 @@ export const getJobs = ({keyword = '', limit = 4},callback) => {
   fetch(`/api/search/jobs/search?keyword=${keyword}&limit=${limit}`, requestOptions)
     .then((response) => response.json())
     .then((result) => {
-      if (result?.success) {
-        callback(result?.data);
-      }
+        callback(result);
     })
     .catch((error) => console.log("error", error));
 };

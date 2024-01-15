@@ -10,7 +10,11 @@ export default function JobsSection() {
   useEffect(() => {
     const getAll = () => {
       getJobs({keyword:"",limit:4}, (data) => {
-        setJobs(data);
+        if(data?.success){
+          setJobs(data?.data);
+        }else{
+          toast?.error(data?.message)
+        }
       });
     };
     getAll();

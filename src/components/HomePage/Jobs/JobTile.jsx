@@ -1,3 +1,4 @@
+import { getTimeForJob } from "@/services/getTimeForJob";
 import getTimeAgoString from "@/utils/getTimeAgo";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -21,16 +22,6 @@ export default function JobTile({ job }) {
       return title;
     }
   };
-
-  const getTimeForJob = (t)=>{
-    const time = parseInt(t,10);
-    if(time > 0 && time < 30){
-      return `Within ${t} ${t == 1? 'day':'days'}`;
-    }else if(time >= 30 && time < 60){
-      const month = parseInt(time/30,10);
-      return `Within ${month} ${t == 1? 'month':'months'}`;
-    }
-  }
 
   return (
     <div key={job?.key} className="relative shadow-[0px_0px_25px_12px_#00000024] bg-white rounded-3xl">

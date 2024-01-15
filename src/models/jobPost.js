@@ -14,6 +14,7 @@ const postSchema = mongoose.Schema(
         freelancer: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
         category: { type: mongoose.Schema.Types.ObjectId, ref: "Profession" },
         skills: { type: [mongoose.Schema.Types.ObjectId], ref: "Skill" },
+        biders: { type: [mongoose.Schema.Types.ObjectId], ref: "User" },
     },
     {
         timestamps: true,
