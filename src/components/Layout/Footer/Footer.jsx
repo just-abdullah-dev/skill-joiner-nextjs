@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Footer() {
   return (
-    <footer className="text-gray-400 bg-secondary">
+    <footer className="text-gray-400 bg-secondary z-50">
       <div className=" flex justify-around">
         {/* logo navigation links etc  */}
         <div className="">

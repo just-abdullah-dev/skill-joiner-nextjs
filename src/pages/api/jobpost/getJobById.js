@@ -13,7 +13,21 @@ const handler = async (req, res) => {
   try {
     await connectDB();
     const { id } = req.query;
-    const jobPost = await JobPost.findById(id).populate(['skills','freelancer','user','category']);
+    const jobPost = await JobPost.findById(id).populate([
+      {
+        path: 'user',
+        select: 'avatar name username bio about',
+      },
+      {
+        path: 'skills',
+      },
+      {
+        path: 'freelancer',
+      },
+      {
+        path: 'category',
+      },
+    ]);
     if (!jobPost) {
       return errorHandler(res, 404, "Job was not found.");
     }

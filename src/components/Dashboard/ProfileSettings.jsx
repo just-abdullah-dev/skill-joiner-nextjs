@@ -9,7 +9,7 @@ import Education from "./Education";
 import Portfolio from "./Portfolio";
 import Services from "./Services";
 
-export default function Dashboard() {
+export default function ProfileSettings() {
   const router = useRouter();
   const { userInfo } = useSelector((state) => state.user);
   const [userProfile, setUserProfile] = useState(null);

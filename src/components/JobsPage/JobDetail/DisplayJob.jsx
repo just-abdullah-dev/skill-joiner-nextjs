@@ -2,10 +2,7 @@
 import UserShortView from "@/components/User/UserShortView";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import toast from "react-hot-toast";
 import ShareOnMedia from "@/components/utils/ShareOnMedia";
-// import PricingOpt from "./PricingOpt";
-// import RelatedServices from "./RelatedServices";
 import { getJobById } from "@/services/getJobById";
 import { useSelector } from "react-redux";
 import dynamic from "next/dynamic";
@@ -39,7 +36,6 @@ function DisplayJob({ id }) {
     };
     get();
   }, [id, setJob]);
-  
   return (
     <>
       {isError ? (
