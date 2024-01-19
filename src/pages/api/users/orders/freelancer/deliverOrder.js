@@ -92,7 +92,7 @@ const handler = async (req, res) => {
                 order.client.email, 
                 order.client.name, 
                 req.user.name, 
-                title, "http://localhost:3000/api/salam");
+                title, "http://skilljoiner.com/dashboard/orders");
             res.status(201).json({ success: true,
                 data: deliveryData, 
                 message: 'Project has been delivered.' });

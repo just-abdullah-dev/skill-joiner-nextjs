@@ -11,7 +11,7 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
-import ViewImage from "../utils/ViewImage";
+import ViewImage from "../../utils/ViewImage";
 import { useRouter } from "next/navigation";
 
 function Portfolio({ userPortfolio = [] }) {

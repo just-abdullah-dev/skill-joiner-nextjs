@@ -1,14 +1,16 @@
-export const getJobById= (id,callback) => {
+export const getJobsByUserId = (token,callback) => {
   var requestOptions = {
     method: "GET",
     redirect: "follow",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   };
 
-  fetch(`/api/jobpost/getJobById?id=${id}`, requestOptions)
+  fetch(`/api/jobpost/getJobsByUserId`, requestOptions)
     .then((response) => response.json())
     .then((result) => {
         callback(result);
-      
     })
     .catch((error) => console.log("error", error));
 

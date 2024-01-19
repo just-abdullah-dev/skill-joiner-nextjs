@@ -25,9 +25,9 @@ function EditJob({ id }) {
   const [isLoading, setIsLoading] = useState(false);
 
   const [title, setTitle] = useState("");
-  const [desc, setDesc] = useState("");
   const [time, setTime] = useState("");
   const [budget, setBudget] = useState("");
+  const [desc, setDesc] = useState("");
   const [photos, setPhotos] = useState([]);
   const [videos, setVideos] = useState([]);
   const [docs, setDocs] = useState([]);

@@ -149,7 +149,7 @@ function DisplayJob({ id }) {
             {/* 2nd column user  */}
             <div className="  w-1/3">
               <div className=" grid gap-2 text-dark-grey">
-                <p>{getTimeAgoString(job?.updatedAt)}</p>
+                <p>{getTimeAgoString(job?.createdAt)}</p>
                 <p>Posted By:</p>
               </div>
               <UserShortView user={job?.user} />

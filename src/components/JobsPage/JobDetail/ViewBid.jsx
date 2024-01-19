@@ -3,6 +3,7 @@ import { ArrowLeftCircleIcon } from 'lucide-react';
 import React from 'react'
 
 export default function ViewBid({goBack}) {
+  
   return (
     <div className="mb-24 grid gap-6">
       <div className="bg-white relative font-semibold text-center text-4xl py-4 flex gap-4 items-center justify-center">

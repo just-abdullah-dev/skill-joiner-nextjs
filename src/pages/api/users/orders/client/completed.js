@@ -12,15 +12,15 @@ import { sendMailOrderCompleted } from '@/utils/mail/sendMailOrderCompleted';
 
 export default async function handler(req, res){
     try {
-      if(req.method !== 'POST'){
-        return reqMethodError(res, 'POST');
+      if(req.method !== 'PUT'){
+        return reqMethodError(res, 'PUT');
     }
     
     await connectDB();
     await userAuthGuard(req, res);
     
     // type means either post, request or service
-    const { id, title } = req.body; 
+    const { id, title } = JSON.parse(req.body); 
     let order = await Order.findById(id).populate('freelancer','email name');
     if(!order){
       return errorHandler(res, 404, 'Order was not found.')
@@ -31,7 +31,7 @@ export default async function handler(req, res){
         req.user.name,
         order.freelancer.name,
         title,
-        "http://localhost:3000/api/salam"
+        "https://skilljoiner.com/dashboard/orders"
     );
     
     await order.save();

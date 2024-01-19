@@ -15,7 +15,7 @@ const handler = async (req, res) => {
     try {
         await connectDB();
         await userAuthGuard(req, res);
-        const { id, isAccepted, freelancer } = req.body;
+        const { id, isAccepted, freelancer } = JSON.parse(req.body);
 
         let Bid = await JobBid.findById(id);
         if (!Bid) {

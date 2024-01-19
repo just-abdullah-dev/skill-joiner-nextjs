@@ -41,7 +41,7 @@ export default function ProfileSettings() {
     getProfile();
   }, [userInfo]);
   return (
-    <div className="flex flex-col items-center gap-6 my-32 relative">
+    <div className="flex flex-col items-center gap-6 relative">
       {userProfile ? (
         <>
         <ProfileData />

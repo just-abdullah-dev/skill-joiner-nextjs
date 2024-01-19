@@ -9,6 +9,8 @@ import { Loader2Icon } from "lucide-react";
 import getTimeAgoString from "@/utils/getTimeAgo";
 import { getTimeForJob } from "@/services/getTimeForJob";
 import { getBidsByJobId } from "@/services/getBidsByJobId";
+import Link from "next/link";
+import toast from "react-hot-toast";
 
 function DisplayBids({ jobId }) {
   const [isViewBid, setIsViewBid] = useState({
@@ -20,6 +22,7 @@ function DisplayBids({ jobId }) {
   const [bids, setBids] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState("");
+  const [showReverse, setShowReverse] = useState(false);
 
   useEffect(() => {
     setIsLoading(true);
@@ -46,6 +49,36 @@ function DisplayBids({ jobId }) {
     }
   };
 
+  const handleAcceptBid = (bidId, freelancerId)=>{
+    const body = {
+      freelancer: freelancerId,
+      id: bidId,
+      isAccepted: 'yes',
+    };
+    var requestOptions = {
+      method: "PUT",
+      redirect: "follow",
+      headers: {
+        Authorization: `Bearer ${userInfo?.token}`,
+      },
+      body: JSON.stringify(body),
+    };
+  
+    fetch(`/api/jobbid/isAccepted`, requestOptions)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data?.success) {
+          toast.success(data?.message)
+          setIsLoading(false);
+          setIsError("");
+        } else {
+          setIsError(data?.message);
+        }
+        
+      })
+      .catch((error) => console.log("error", error));
+  
+  }
   return (
     <div className=" bg-white p-6 rounded-2xl">
       {/* jobs  */}
@@ -58,10 +91,18 @@ function DisplayBids({ jobId }) {
           <Loader2Icon size={48} className="animate-spin" />
         </div>
       ) : (
-        <div>
-          <div className=" flex items-center justify-around">
-            <h1 className=" text-3xl">Bids</h1>
-            <p>See Latest</p>
+        <div className="">
+          <div className=" flex items-center justify-around bg-white py-4 w-full">
+            <h1 className=" text-3xl">Bids{"("}{bids.length}{")"}</h1>
+            <button
+            className=" normalButtonTag w-[110px] bg-secondary"
+            onClick={()=>{
+              setBids(()=>{
+                return bids.slice().reverse();
+              });
+              setShowReverse(!showReverse)
+            }}
+            >{showReverse?'See Oldest':'See Latest'}</button>
           </div>
           {bids[0] && (
             <div className="grid gap-6 grid-cols-1 w-full p-6">
@@ -69,7 +110,7 @@ function DisplayBids({ jobId }) {
                 return (
                   <div
                     key={item?._id}
-                    className=" p-4 bg-white rounded-2xl shadow-[rgba(0,_0,_0,_0.24)_-1px_3px_8px] grid gap-4"
+                    className=" p-4 rounded-2xl shadow-[rgba(0,_0,_0,_0.24)_-1px_3px_8px] grid gap-4 even:bg-light-soft bg-gray-200"
                   >
                     {isViewBid?.show && isViewBid?.index == index ? (
                       <>
@@ -80,6 +121,44 @@ function DisplayBids({ jobId }) {
                           <div className="flex items-center justify-around gap-4 text-base font-semibold">
                             <p>Time: {getTimeForJob(item?.time)}</p>
                             <p>Budget: {item?.budget} PKR</p>
+                          </div>
+                          <div className=" flex flex-wrap gap-4 p-8">
+                          {item?.photos[0]&& item?.photos.map((pic, index)=>{
+                              return (
+                                <a
+                                className=" actionButtonTag w-fit"
+                                key={index} target="_blank" href={`/media/${pic}`} download >
+                                  Download Image {index+1}
+                                </a>
+                              )
+                            })}
+                            {item?.videos[0]&& item?.videos.map((pic, index)=>{
+                              return (
+                                <a
+                                className=" actionButtonTag w-fit"
+                                key={index} target="_blank" href={`/media/${pic}`} download >
+                                  Download Video {index+1}
+                                </a>
+                              )
+                            })}
+                            {item?.docs[0]&& item?.docs.map((pic, index)=>{
+                              return (
+                                <a
+                                className=" actionButtonTag w-fit"
+                                key={index} target="_blank" href={`/media/${pic}`} download >
+                                  Download File {index+1}
+                                </a>
+                              )
+                            })}
+                          </div>
+                          <div className=" flex items-end justify-end w-full ">
+                          <button
+                          onClick={()=>{
+                            handleAcceptBid(item?._id,item?.user?._id);
+                          }}
+                          className=" normalButtonTag bg-green-500 hover:bg-green-600 text-white w-[150px]">
+                            Accept
+                          </button>
                           </div>
                           </div>
                           <div className=" w-1/3">

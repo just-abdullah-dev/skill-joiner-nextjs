@@ -5,21 +5,20 @@ import Order from '@/models/order';
 import Service from '@/models/service';
 import JobBid from '@/models/jobBid';
 import ServiceReq from '@/models/request';
-import sendMailOrderCancellation from '@/utils/mail/orderCancellation';
 import errorHandler from '@/middleware/errorHandler';
 import { sendMailOrderRevision } from '@/utils/mail/sendMailOrderRevision';
 
 export default async function handler(req, res){
     try {
-      if(req.method !== 'POST'){
-        return reqMethodError(res, 'POST');
+      if(req.method !== 'PUT'){
+        return reqMethodError(res, 'PUT');
     }
     
     await connectDB();
     await userAuthGuard(req, res);
     
     // type means either post, request or service
-    const { id, title } = req.body; 
+    const { id, title, desc } = JSON.parse(req.body); 
     let order = await Order.findById(id).populate('freelancer','email name');
     if(!order){
       return errorHandler(res, 404, 'Order was not found.')
@@ -31,7 +30,7 @@ export default async function handler(req, res){
         req.user.name,
         order.freelancer.name,
         title,
-        "http://localhost:3000/api/salam"
+        "https://skilljoiner.com/dashboard/orders",desc
     );
     
     await order.save();

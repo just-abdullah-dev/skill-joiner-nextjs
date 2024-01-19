@@ -6,7 +6,7 @@ import dynamic from "next/dynamic";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
-import ServicesTile from "../HomePage/Services/ServicesTile";
+import ServicesTile from "../../HomePage/Services/ServicesTile";
 
 function Services({ userServices = [] }) {
   const [userServicesState, setUserServicesState] = useState(null);

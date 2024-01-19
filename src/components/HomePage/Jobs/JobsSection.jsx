@@ -3,6 +3,7 @@ import { Loader2Icon } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { getJobs } from "@/services/getJobs";
 import JobTile from "./JobTile";
+import toast from "react-hot-toast";
 
 export default function JobsSection() {
   const [jobs, setJobs] = useState([]);

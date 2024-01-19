@@ -21,7 +21,7 @@ export default function UserShortView({user}) {
         {/* bio about  */}
         <div className='grid gap-4 px-8'>
             <p className=' text-lg'>{user?.bio}</p>
-            <p className=' text-base leading-8'>{user?.about}</p>
+            {/* <p className=' text-base leading-8'>{user?.about}</p> */}
         </div>
     </div>
   )
