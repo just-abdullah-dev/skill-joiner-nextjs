@@ -229,7 +229,7 @@ function ProfileData() {
                 />
               </>
             ) : (
-              <p className="leading-6 font-semibold">{userInfo?.bio}</p>
+              <p className="leading-6 font-semibold text-lg">{userInfo?.bio}</p>
             )}
             {isEdit ? (
               <>

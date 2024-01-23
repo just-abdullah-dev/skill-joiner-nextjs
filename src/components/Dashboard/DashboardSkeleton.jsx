@@ -29,9 +29,6 @@ function DashboardSkeleton({children, type}) {
         <div className='  w-[20%] h-screen'>
             <div className=' flex items-start flex-col gap-2 w-[20%] fixed bg-white h-[50%]'>
                 {linkOptions.map((item)=>{
-                    if(!userInfo?.student && item?.path == 'requests'){
-                        return;
-                    }
                     return (
                         <Link
                         key={item?.path}

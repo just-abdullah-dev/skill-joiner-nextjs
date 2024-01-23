@@ -89,7 +89,7 @@ export default function RegisterAsStd() {
     let username = email.value.split("@")[0];
     const url = `/api/users/registerAsStd`;
     const body = {
-      email: email.value,
+      email: email.value.toLowerCase(),
       name: name.value,
       password: password.value,
       username,

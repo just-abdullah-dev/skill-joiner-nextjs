@@ -32,7 +32,7 @@ export default function DisplayService({ id }) {
         {/* services details  */}
         <div className="  bg-white rounded-2xl w-2/3 p-6 grid gap-10">
           {/* images, videos  */}
-          <div className=" aspect-video w-full flex items-center justify-center ">
+          <div className=" aspect-video w-full flex items-center justify-center">
             <Image
               height={700}
               width={700}
@@ -45,9 +45,11 @@ export default function DisplayService({ id }) {
           {/* Description  */}
           <p className=" leading-8 p-6">{service?.desc}</p>
 
-          {/* Pricing  */}
+          <div className=" relative">
+            {/* Pricing  */}
           {service && 
           <PricingOpt packages={service?.packages} />}
+          </div>
 
           {/* profession  */}
           <div className=" flex gap-4 items-center">

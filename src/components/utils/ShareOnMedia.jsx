@@ -4,7 +4,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-export default function ShareOnMedia({URL}) {
+export default function ShareOnMedia({URL, showHeading=true, css = ''}) {
     const [url,setUrl] = useState('');
     useEffect(()=>{
         const set = ()=>{
@@ -46,10 +46,10 @@ export default function ShareOnMedia({URL}) {
     },
   ];
   return (
-    <div className=" bg-white rounded-2xl px-2 py-8 grid gap-8">
-      <h1 className="text-3xl font-bold">Share on</h1>
-        <div className="grid gap-8 grid-cols-2 md:grid-cols-5">
-        <div className=" flex items-center justify-center">
+    <div className=" rounded-2xl px-2 py-8 grid gap-8">
+      {showHeading && <h1 className="text-3xl font-bold">Share on</h1>}
+        <div className={css?css:"grid gap-8 grid-cols-2 md:grid-cols-5"}>
+        <div className={` flex items-center justify-center`}>
         <LinkIcon
             onClick={copyToClipboard}
             className=" scale-125 cursor-pointer"

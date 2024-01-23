@@ -80,7 +80,7 @@ export default function Login() {
     setIsLoading(true);
     const url = `/api/users/login`;
     const body = {
-      email: email.value,
+      email: email.value.toLowerCase(),
       password: password.value,
     };
     const options = {

@@ -1,18 +1,19 @@
 "use client";
+import { userActions } from "@/store/reducers/userReducer";
 import { Eye, EyeOff, Loader2Icon } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
 
-export default function RegisterAsClient() {
+export default function Login() {
   const router = useRouter();
+  const {userInfo} = useSelector(state=>state.user);
   const [showPassword, setShowPassowrd] = useState(false);
-  const [isValidData, setIsValidData] = useState(false);
+  const [isValidData, setIsValidData] = useState(false); 
   const [isLoading, setIsLoading] = useState(false);
-  const [name, setName] = useState({
-    value: "",
-    error: "",
-  });
+  const dispatch = useDispatch();
   const [email, setEmail] = useState({
     value: "",
     error: "",
@@ -31,7 +32,7 @@ export default function RegisterAsClient() {
       setEmail(() => {
         return { value: EMAIL, error: "" };
       });
-      if (!isValidData && !name.error && !email.error && !password.error) {
+      if (!isValidData && !email.error && !password.error) {
         setIsValidData(true);
       }
     } else {
@@ -43,24 +44,6 @@ export default function RegisterAsClient() {
       }
     }
   };
-  function handleChangeName(e) {
-    const name = e.target.value;
-    if (name.length < 2) {
-      setName(() => {
-        return { value: name, error: "Name must have atleast 2 characters." };
-      });
-      if (isValidData) {
-        setIsValidData(false);
-      }
-    } else {
-      setName(() => {
-        return { value: name, error: "" };
-      });
-      if (!isValidData && !name.error && !email.error && !password.error) {
-        setIsValidData(true);
-      }
-    }
-  }
 
   function handleChangePassword(e) {
     const password = e.target.value;
@@ -78,21 +61,27 @@ export default function RegisterAsClient() {
       setPassword(() => {
         return { value: password, error: "" };
       });
-      if (!isValidData && !name.error && !email.error && !password.error) {
+      if (!isValidData && !email.error && !password.error) {
         setIsValidData(true);
       }
     }
   }
 
+  useEffect(()=>{
+    if(!userInfo?.success){
+      toast('Already logged in!', {
+        icon: '🔓',
+      });
+      router.push('/');
+    }
+  },[])
+
   async function handleFormSubmit() {
     setIsLoading(true);
-    let username = email.value.split("@")[0];
-    const url = `/api/users/registerAsUser`;
+    const url = `/api/superAdmin/login`;
     const body = {
       email: email.value.toLowerCase(),
-      name: name.value,
       password: password.value,
-      username,
     };
     const options = {
       method: "POST",
@@ -104,7 +93,12 @@ export default function RegisterAsClient() {
     const response = await fetch(url, options);
     const data = await response.json();
     if (data?.success) {
-      router.push(`/register/verify?email=${email.value}&name=${name.value}`);
+      // dispatch(userActions.setUserInfo(data));
+      localStorage.setItem('admin',JSON.stringify(data));
+      toast('Logged in successfully!', {
+        icon: '🔓',
+      });
+      router.push('/superadmin/code/dashboard');
     } else {
       toast.error(data?.message);
     }
@@ -114,35 +108,20 @@ export default function RegisterAsClient() {
   return (
     <div className="mx-24 my-16">
       <div className="grid grid-cols-2">
-        <div className="font-bold text-5xl tracking-wider mt-16 ">
-          <h1 className="">
-            <span className="text-primary">Discover</span> exceptional
-            <span className="text-primary"> service</span> providers here.
-          </h1>
+        <div className="font-bold text-5xl leadin mt-16 ">
+        <h1 className="">
+          Super <span className="text-primary">Admin</span> Signin
+        </h1>
           <br />
           <h1>
-            Welcome to <span className="text-primary">Skill Joiner</span>
+            Welcome back to <span className="text-primary">Skill-Joiner</span>
           </h1>
         </div>
         <div className="flex justify-center items-center">
           <div className="grid gap-8 w-[500px] rounded-2xl px-14 pt-4 pb-8 bg-white">
             <h1 className="text-3xl tracking-wide leading-loose font-bold text-center">
-              Sign Up
+              Sign In
             </h1>
-            <div>
-              <input
-                onChange={(e) => {
-                  handleChangeName(e);
-                }}
-                value={name.value}
-                className="inputTag w-full"
-                type="text"
-                placeholder="Your Full Name..."
-              />
-              {name?.error && (
-                <p className="mt-1 text-xs text-red-500">{name.error}</p>
-              )}
-            </div>
             <div>
               <input
                 onChange={(e) => {
@@ -166,7 +145,7 @@ export default function RegisterAsClient() {
                   }}
                   className="inputTag w-full"
                   type={showPassword ? "text" : "password"}
-                  placeholder="Create Strong Password"
+                  placeholder="Your Password"
                 />
                 {showPassword ? (
                   <button
@@ -189,23 +168,14 @@ export default function RegisterAsClient() {
               )}
             </div>
             <button
-              disabled={!isValidData || isLoading}
+              disabled={!isValidData || isLoading || !email.value || !password.value}
               onClick={handleFormSubmit}
               className="p-3 rounded-lg bg-primary text-white hover:bg-primary_dark disabled:opacity-70 disabled:cursor-not-allowed flex justify-center items-center"
             >
               {isLoading ?
               <Loader2Icon className='animate-spin' />:
-              'Sign Up' }
+              'Sign In' }
             </button>
-            <p className="text-sm font-semibold">
-              Already have an account?
-              <a
-                href="/login"
-                className="ml-4 text-primary font-semibold text-md"
-              >
-                Login Now
-              </a>
-            </p>
           </div>
         </div>
       </div>

@@ -14,14 +14,14 @@ import Package from "@/models/package";
 
 export default async function handler(req, res) {
     try {
-        if(req.method !== 'GET'){
-            return reqMethodError(res, 'GET');
+        if(req.method !== 'POST'){
+            return reqMethodError(res, 'POST');
         }
         
         await connectDB();
-        await userAuthGuard(req, res);
         
-        const user = await User.findById(req.user?._id)
+        const {username} = JSON.parse(req.body);
+        const user = await User.findOne({username:username})
       .select('-password')
       .populate([
         {

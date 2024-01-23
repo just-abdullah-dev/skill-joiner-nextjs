@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import ProfileData from "./ProfileData";
 import CountryProfessionAndSkills from "./Profession&Skills";
-import Education from "./Education";
+import Education from "./DisplayEducation";
 import Portfolio from "./Portfolio";
 import Services from "./Services";
 import { Loader2Icon } from "lucide-react";

@@ -1,14 +1,14 @@
 import Gradient from "@/components/GradientBG/Gradient";
 import Layout from "@/components/Layout/Layout";
-import ServicesDisplay from "@/components/ServicesPage/Main/ServicesDisplay";
 import SearchBar from "@/components/TalentPage/Main/SearchBar";
+import TalentsDisplay from "@/components/TalentPage/Main/TalentsDisplay";
 
 export default function page({searchParams}) {
   return (
-    <Layout>
+    <Layout> 
       <Gradient>
-        <SearchBar type={'services'} />
-        <ServicesDisplay keyword={searchParams?.q} />
+        <SearchBar type={'talent'} />
+        <TalentsDisplay keyword={searchParams?.q} />
       </Gradient>
     </Layout>
   )

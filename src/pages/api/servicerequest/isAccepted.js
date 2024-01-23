@@ -15,8 +15,8 @@ const handler = async (req, res) => {
     try {
         await connectDB();
         await userAuthGuard(req, res);
-        const { id, isAccepted, isRejected } = req.body;
-        let request = await ServiceReq.findById(id);
+        const { _id, isAccepted, isRejected } = JSON.parse(req.body);
+        let request = await ServiceReq.findById(_id);
         if(!request){
             return errorHandler(res, 404, "Request was not found.")
         }
@@ -33,7 +33,7 @@ const handler = async (req, res) => {
             const order = await Order.create({
                 client: request.requestBy,
                 freelancer: req.user._id,
-                serviceReq: id,
+                serviceReq: _id,
             });
             await sendMailRequestAccepted(client.email, request.title, client.name, req.user.name);
         }else if (isRejected == 'yes') {

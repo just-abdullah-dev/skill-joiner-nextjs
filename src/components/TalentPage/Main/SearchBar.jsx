@@ -2,13 +2,13 @@
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 
-export default function SearchBar() {
+export default function SearchBar({type}) {
     const [keyword, setKeyword] = useState('');
     const router = useRouter();
 
     function handleKeyDown(e){
-        if(e.key == 'Enter'){
-                router.push(`/services?q=${keyword}`);
+        if(e.key == 'Enter'){ 
+                router.push(`/${type}?q=${keyword}`); 
         }
     }
     // Find the perfect match for your needs
@@ -35,6 +35,9 @@ export default function SearchBar() {
             }}
             onChange={(e)=>{
                 setKeyword(e.target.value)
+                if(e.target.value == ''){
+                  router.push(`/${type}?q=`)
+                }
             }}
           />
         </div>
