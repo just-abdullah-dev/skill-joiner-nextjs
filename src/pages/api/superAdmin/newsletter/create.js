@@ -11,6 +11,10 @@ const handler = async (req, res) => {
         await connectDB();
 
         const { email } = JSON.parse(req.body);
+        const exist = await Newsletter.findOne({email});
+        if(exist){
+            return errorHandler(res, 400, "Thanks for your effort! Email is already subscribed.")
+        }
         const newsletter = await Newsletter.create({
             email
         });
